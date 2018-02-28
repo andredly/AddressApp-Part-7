@@ -50,18 +50,8 @@ public class ServerTabOverviewController {
      */
     @FXML
     private void initialize() {
-    	// Initialize the person table with the two columns.
-
-		// Create a ListView
-//		listServer.setItems();
-
-		// To set multiple selection model
 		listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 //		listServer.setCellFactory(ComboBoxListCell.forListView(names));
-
-		// Select item at index = 1,2
-
-		// Focus
 		listServer.getFocusModel().focus(0);
 
 //        lastNameColumn.setCellValueFactory(
@@ -74,6 +64,22 @@ public class ServerTabOverviewController {
 //		personTable.getSelectionModel().selectedItemProperty().addListener(
 //				(observable, oldValue, newValue) -> showPersonDetails(newValue));
     }
+
+	@FXML
+	private void handleAddServer() {
+    	ServerData serverData = new ServerData();
+		int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
+		if (selectedIndex >= 0) {
+			personTable.getItems().remove(selectedIndex);
+		} else {
+			// Nothing selected.
+			Dialogs.create()
+					.title("No Selection")
+					.masthead("No Person Selected")
+					.message("Please select a person in the table.")
+					.showWarning();
+		}
+	}
 
     /**
      * Is called by the main application to give a reference back to itself.

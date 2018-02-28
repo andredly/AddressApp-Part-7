@@ -13,6 +13,7 @@ public class ServerData {
     private BooleanProperty content;
     private BooleanProperty bundle;
     private BooleanProperty skipTest;
+    private StringProperty bundleName;
 
     public ServerData() {
         this.serverName = new SimpleStringProperty();
@@ -24,6 +25,7 @@ public class ServerData {
         this.content = new SimpleBooleanProperty();
         this.bundle = new SimpleBooleanProperty();
         this.skipTest = new SimpleBooleanProperty();
+        this.host = new SimpleStringProperty();
     }
 
     public String getServerName() {
@@ -34,8 +36,20 @@ public class ServerData {
         return serverName;
     }
 
+    public void setServerName(String serverName) {
+        this.serverName.set(serverName);
+    }
+
+    public String getProjectPath() {
+        return projectPath.get();
+    }
+
     public StringProperty projectPathProperty() {
         return projectPath;
+    }
+
+    public void setProjectPath(String projectPath) {
+        this.projectPath.set(projectPath);
     }
 
     public String getHost() {
@@ -46,12 +60,20 @@ public class ServerData {
         return host;
     }
 
+    public void setHost(String host) {
+        this.host.set(host);
+    }
+
     public int getPort() {
         return port.get();
     }
 
     public IntegerProperty portProperty() {
         return port;
+    }
+
+    public void setPort(int port) {
+        this.port.set(port);
     }
 
     public String getTypeEnvironment() {
@@ -62,12 +84,20 @@ public class ServerData {
         return typeEnvironment;
     }
 
+    public void setTypeEnvironment(String typeEnvironment) {
+        this.typeEnvironment.set(typeEnvironment);
+    }
+
     public boolean isFull() {
         return full.get();
     }
 
     public BooleanProperty fullProperty() {
         return full;
+    }
+
+    public void setFull(boolean full) {
+        this.full.set(full);
     }
 
     public boolean isContent() {
@@ -78,12 +108,20 @@ public class ServerData {
         return content;
     }
 
+    public void setContent(boolean content) {
+        this.content.set(content);
+    }
+
     public boolean isBundle() {
         return bundle.get();
     }
 
     public BooleanProperty bundleProperty() {
         return bundle;
+    }
+
+    public void setBundle(boolean bundle) {
+        this.bundle.set(bundle);
     }
 
     public boolean isSkipTest() {
@@ -94,17 +132,19 @@ public class ServerData {
         return skipTest;
     }
 
-
-    public String getProjectPath(){
-        return projectPath.get();
+    public void setSkipTest(boolean skipTest) {
+        this.skipTest.set(skipTest);
     }
 
-    public StringProperty getProjectPathProperty() {
-        return projectPath;
+    public String getBundleName() {
+        return bundleName.get();
     }
 
-    public void setProjectPath(String projectPath) {
-        this.projectPath.set(projectPath);
+    public StringProperty bundleNameProperty() {
+        return bundleName;
     }
 
+    public void setBundleName(String bundleName) {
+        this.bundleName.set(bundleName);
+    }
 }
