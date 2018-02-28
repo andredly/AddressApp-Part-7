@@ -7,11 +7,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import javafx.stage.FileChooser;
 import org.controlsfx.dialog.Dialogs;
 
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
 import ch.makery.address.util.DateUtil;
+
+import java.io.File;
 
 public class PersonOverviewController {
     @FXML
@@ -104,6 +107,24 @@ public class PersonOverviewController {
     	}
     }
 
+
+	@FXML
+	private void handleOpen() {
+		FileChooser fileChooser = new FileChooser();
+
+		// Set extension filter
+		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+				"XML files (*.xml)", "*.xml");
+		fileChooser.getExtensionFilters().add(extFilter);
+
+		// Show save file dialog
+		File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+
+		if (file != null) {
+			mainApp.loadPersonDataFromFile(file);
+		}
+	}
+
 	/**
 	 * Called when the user clicks on the delete button.
 	 */
@@ -157,4 +178,7 @@ public class PersonOverviewController {
 				.showWarning();
 		}
 	}
+
+
+
 }

@@ -9,7 +9,11 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxListCell;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import org.controlsfx.dialog.Dialogs;
+
+import java.io.File;
 
 public class ServerTabOverviewController {
 
@@ -124,6 +128,16 @@ public class ServerTabOverviewController {
 					.message("Please select a person in the table.")
 					.showWarning();
 		}
+	}
+
+	@FXML
+	private void handleOpen() {
+
+		DirectoryChooser chooser = new DirectoryChooser();
+		chooser.setTitle("AEM Projects");
+//		File defaultDirectory = new File("c:/dev/javafx");
+//		chooser.setInitialDirectory(defaultDirectory);
+		File selectedDirectory = chooser.showDialog(new Stage());
 	}
 
     /**
