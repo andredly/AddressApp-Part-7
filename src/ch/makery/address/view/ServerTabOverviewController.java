@@ -2,15 +2,19 @@ package ch.makery.address.view;
 
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
+import ch.makery.address.model.ServerData;
 import ch.makery.address.util.DateUtil;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxListCell;
 import org.controlsfx.dialog.Dialogs;
 
 public class ServerTabOverviewController {
-    @FXML
+
+	@FXML
+	private ListView<ServerData> listServer;
+
+	@FXML
     private TableView<Person> personTable;
     @FXML
     private TableColumn<Person, String> firstNameColumn;
@@ -47,8 +51,19 @@ public class ServerTabOverviewController {
     @FXML
     private void initialize() {
     	// Initialize the person table with the two columns.
-//        firstNameColumn.setCellValueFactory(
-//        		cellData -> cellData.getValue().firstNameProperty());
+
+		// Create a ListView
+//		listServer.setItems();
+
+		// To set multiple selection model
+		listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+//		listServer.setCellFactory(ComboBoxListCell.forListView(names));
+
+		// Select item at index = 1,2
+
+		// Focus
+		listServer.getFocusModel().focus(0);
+
 //        lastNameColumn.setCellValueFactory(
 //        		cellData -> cellData.getValue().lastNameProperty());
         
@@ -70,6 +85,7 @@ public class ServerTabOverviewController {
 
         // Add observable list data to the table
 //        personTable.setItems(mainApp.getPersonData());
+        listServer.setItems(mainApp.getServerDataList());
     }
     
     /**

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
+import ch.makery.address.model.ServerData;
 import ch.makery.address.view.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -38,21 +39,25 @@ public class MainApp extends Application {
 	 * The data as an observable list of Persons.
 	 */
 	private ObservableList<Person> personData = FXCollections.observableArrayList();
+	private ObservableList<ServerData> serverDataList = FXCollections.observableArrayList();
 
 	/**
 	 * Constructor
 	 */
 	public MainApp() {
+
 		// Add some sample data
-//		personData.add(new Person("Hans", "Muster"));
-//		personData.add(new Person("Ruth", "Mueller"));
-//		personData.add(new Person("Heinz", "Kurz"));
-//		personData.add(new Person("Cornelia", "Meier"));
-//		personData.add(new Person("Werner", "Meyer"));
-//		personData.add(new Person("Lydia", "Kunz"));
-//		personData.add(new Person("Anna", "Best"));
-//		personData.add(new Person("Stefan", "Meier"));
-//		personData.add(new Person("Martin", "Mueller"));
+		ServerData serverData = new ServerData();
+		serverData.setProjectPath("sdfgsdfgsdfg");
+		serverDataList.add(serverData);
+		personData.add(new Person("Ruth", "Mueller"));
+		personData.add(new Person("Heinz", "Kurz"));
+		personData.add(new Person("Cornelia", "Meier"));
+		personData.add(new Person("Werner", "Meyer"));
+		personData.add(new Person("Lydia", "Kunz"));
+		personData.add(new Person("Anna", "Best"));
+		personData.add(new Person("Stefan", "Meier"));
+		personData.add(new Person("Martin", "Mueller"));
 	}
 
 	@Override
@@ -186,30 +191,30 @@ public class MainApp extends Application {
 	/**
 	 * Opens a dialog to show birthday statistics.
 	 */
-	public void showBirthdayStatistics() {
-		try {
-			// Load the fxml file and create a new stage for the popup.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(MainApp.class.getResource("view/BirthdayStatistics.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Birthday Statistics");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			dialogStage.getIcons().add(new Image("file:resources/images/calendar.png"));
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the persons into the controller.
-			BirthdayStatisticsController controller = loader.getController();
-			controller.setPersonData(personData);
-
-			dialogStage.show();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void showBirthdayStatistics() {
+//		try {
+//			// Load the fxml file and create a new stage for the popup.
+//			FXMLLoader loader = new FXMLLoader();
+//			loader.setLocation(MainApp.class.getResource("view/BirthdayStatistics.fxml"));
+//			AnchorPane page = (AnchorPane) loader.load();
+//			Stage dialogStage = new Stage();
+//			dialogStage.setTitle("Birthday Statistics");
+//			dialogStage.initModality(Modality.WINDOW_MODAL);
+//			dialogStage.initOwner(primaryStage);
+//			dialogStage.getIcons().add(new Image("file:resources/images/calendar.png"));
+//			Scene scene = new Scene(page);
+//			dialogStage.setScene(scene);
+//
+//			// Set the persons into the controller.
+//			BirthdayStatisticsController controller = loader.getController();
+//			controller.setPersonData(personData);
+//
+//			dialogStage.show();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	/**
 	 * Returns the person file preference, i.e. the file that was last opened.
@@ -322,6 +327,10 @@ public class MainApp extends Application {
 	 */
 	public ObservableList<Person> getPersonData() {
 		return personData;
+	}
+
+	public ObservableList<ServerData> getServerDataList() {
+		return serverDataList;
 	}
 
 	public static void main(String[] args) {
