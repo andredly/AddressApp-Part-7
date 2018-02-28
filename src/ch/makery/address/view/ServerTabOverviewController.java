@@ -3,7 +3,9 @@ package ch.makery.address.view;
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
 import ch.makery.address.model.ServerData;
+import ch.makery.address.model.TypeEnvironment;
 import ch.makery.address.util.DateUtil;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxListCell;
@@ -27,7 +29,7 @@ public class ServerTabOverviewController {
 	private TextField port;
 
 	@FXML
-	private ComboBox typeEnvironment;
+	private ComboBox<TypeEnvironment> typeEnvironment;
 
 	@FXML
 	private RadioButton full;
@@ -39,7 +41,7 @@ public class ServerTabOverviewController {
 	private RadioButton bundle;
 
 	@FXML
-	private ComboBox bundleName;
+	private ComboBox<String> bundleNames;
 
 	@FXML
 	private RadioButton skipTest;
@@ -49,6 +51,14 @@ public class ServerTabOverviewController {
 
 	@FXML
 	private Button saveChange;
+
+	@FXML
+	private CheckBox installPackage;
+
+	@FXML
+	private CheckBox installLocal;
+
+	private final ToggleGroup group = new ToggleGroup();
 
 
 
@@ -95,7 +105,9 @@ public class ServerTabOverviewController {
 
 		listServer.getSelectionModel().selectedItemProperty().addListener(
 				(observable, oldValue, newValue) -> showSeverDetails(newValue));
-
+		full.setToggleGroup(group);
+		content.setToggleGroup(group);
+		bundle.setToggleGroup(group);
     }
 
 	@FXML
@@ -125,6 +137,8 @@ public class ServerTabOverviewController {
         // Add observable list data to the table
 //        personTable.setItems(mainApp.getPersonData());
         listServer.setItems(mainApp.getServerDataList());
+
+
 		showSeverDetails(mainApp.getServerDataList().get(0));
     }
 
@@ -136,7 +150,12 @@ public class ServerTabOverviewController {
 			host.setText(server.getHost());
 			port.setText(Integer.toString(server.getPort()));
 			host.setText(server.getHost());
-			full.fire();
+			full.setSelected(true);
+			typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
+			bundleNames.setItems(FXCollections.observableArrayList(server.getBundleNames()));
+			skipTest.setSelected(true);
+			installPackage.setSelected(true);
+			installLocal.setSelected(true);
 		} else {
 			// Person is null, remove all the text.
 //			firstNameLabel.setText("");

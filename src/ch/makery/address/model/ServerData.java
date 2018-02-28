@@ -2,30 +2,61 @@ package ch.makery.address.model;
 
 import javafx.beans.property.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ServerData {
 
     private StringProperty serverName;
     private StringProperty projectPath;
     private StringProperty host;
     private IntegerProperty port;
-    private StringProperty typeEnvironment;
+    private TypeEnvironment typeEnvironment;
     private BooleanProperty full;
     private BooleanProperty content;
     private BooleanProperty bundle;
     private BooleanProperty skipTest;
-    private StringProperty bundleName;
+    private List<String> bundleNames;
+    private BooleanProperty installPackage;
+    private BooleanProperty installLocal;
+
+    public boolean isInstallPackage() {
+        return installPackage.get();
+    }
+
+    public BooleanProperty installPackageProperty() {
+        return installPackage;
+    }
+
+    public void setInstallPackage(boolean installPackage) {
+        this.installPackage.set(installPackage);
+    }
+
+    public boolean isInstallLocal() {
+        return installLocal.get();
+    }
+
+    public BooleanProperty installLocalProperty() {
+        return installLocal;
+    }
+
+    public void setInstallLocal(boolean installLocal) {
+        this.installLocal.set(installLocal);
+    }
 
     public ServerData() {
         this.serverName = new SimpleStringProperty();
         this.projectPath = new SimpleStringProperty();
         this.host = new SimpleStringProperty();
         this.port = new SimpleIntegerProperty();
-        this.typeEnvironment = new SimpleStringProperty();
         this.full = new SimpleBooleanProperty();
         this.content = new SimpleBooleanProperty();
         this.bundle = new SimpleBooleanProperty();
         this.skipTest = new SimpleBooleanProperty();
         this.host = new SimpleStringProperty();
+        this.bundleNames = new ArrayList<>();
+        this.installPackage = new SimpleBooleanProperty();
+        this.installLocal = new SimpleBooleanProperty();
     }
 
     public String getServerName() {
@@ -76,16 +107,12 @@ public class ServerData {
         this.port.set(port);
     }
 
-    public String getTypeEnvironment() {
-        return typeEnvironment.get();
-    }
-
-    public StringProperty typeEnvironmentProperty() {
+    public TypeEnvironment getTypeEnvironment() {
         return typeEnvironment;
     }
 
-    public void setTypeEnvironment(String typeEnvironment) {
-        this.typeEnvironment.set(typeEnvironment);
+    public void setTypeEnvironment(TypeEnvironment typeEnvironment) {
+        this.typeEnvironment = typeEnvironment;
     }
 
     public boolean isFull() {
@@ -136,15 +163,11 @@ public class ServerData {
         this.skipTest.set(skipTest);
     }
 
-    public String getBundleName() {
-        return bundleName.get();
+    public List<String> getBundleNames() {
+        return bundleNames;
     }
 
-    public StringProperty bundleNameProperty() {
-        return bundleName;
-    }
-
-    public void setBundleName(String bundleName) {
-        this.bundleName.set(bundleName);
+    public void setBundleNames(List<String> bundleNames) {
+        this.bundleNames = bundleNames;
     }
 }

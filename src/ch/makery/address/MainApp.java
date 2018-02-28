@@ -2,6 +2,7 @@ package ch.makery.address;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.prefs.Preferences;
 
 import ch.makery.address.model.ServerData;
@@ -51,12 +52,16 @@ public class MainApp extends Application {
 		serverData.setProjectPath("path");
 		serverData.setServerName("name");
 		serverData.setHost("host");
+		serverData.setBundleNames(Arrays.asList("one", "two"));
 		ServerData serverData1 = new ServerData();
 		serverData1.setProjectPath("path1");
 		serverData1.setServerName("name1");
 		serverData1.setHost("host1");
+		serverData1.setBundleNames(Arrays.asList("one1", "two1"));
 		serverDataList.add(serverData);
 		serverDataList.add(serverData1);
+
+
 		personData.add(new Person("Ruth", "Mueller"));
 		personData.add(new Person("Heinz", "Kurz"));
 		personData.add(new Person("Cornelia", "Meier"));
