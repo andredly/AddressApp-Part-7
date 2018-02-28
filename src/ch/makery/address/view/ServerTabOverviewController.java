@@ -15,6 +15,44 @@ public class ServerTabOverviewController {
 	private ListView<ServerData> listServer;
 
 	@FXML
+	private TextField serverPath;
+
+	@FXML
+	private TextField host;
+
+	@FXML
+	private Button path;
+
+	@FXML
+	private TextField port;
+
+	@FXML
+	private ComboBox typeEnvironment;
+
+	@FXML
+	private RadioButton full;
+
+	@FXML
+	private RadioButton content;
+
+	@FXML
+	private RadioButton bundle;
+
+	@FXML
+	private ComboBox bundleName;
+
+	@FXML
+	private RadioButton skipTest;
+
+	@FXML
+	private Button deploy;
+
+	@FXML
+	private Button saveChange;
+
+
+
+	@FXML
     private TableView<Person> personTable;
     @FXML
     private TableColumn<Person, String> firstNameColumn;
