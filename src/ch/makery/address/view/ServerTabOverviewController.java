@@ -89,18 +89,13 @@ public class ServerTabOverviewController {
     @FXML
     private void initialize() {
 		listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-//		listServer.setCellFactory(ComboBoxListCell.forListView(names));
 		listServer.getFocusModel().focus(0);
 
-//        lastNameColumn.setCellValueFactory(
-//        		cellData -> cellData.getValue().lastNameProperty());
-        
-        // Clear person details.
-//        showPersonDetails(null);
+        showSeverDetails(null);
 
-        // Listen for selection changes and show the person details when changed.
-//		personTable.getSelectionModel().selectedItemProperty().addListener(
-//				(observable, oldValue, newValue) -> showPersonDetails(newValue));
+		listServer.getSelectionModel().selectedItemProperty().addListener(
+				(observable, oldValue, newValue) -> showSeverDetails(newValue));
+
     }
 
 	@FXML
@@ -130,7 +125,28 @@ public class ServerTabOverviewController {
         // Add observable list data to the table
 //        personTable.setItems(mainApp.getPersonData());
         listServer.setItems(mainApp.getServerDataList());
+		showSeverDetails(mainApp.getServerDataList().get(0));
     }
+
+
+	private void showSeverDetails(ServerData server) {
+		if (server != null) {
+			// Fill the labels with info from the person object.
+			serverPath.setText(server.getProjectPath());
+			host.setText(server.getHost());
+			port.setText(Integer.toString(server.getPort()));
+			host.setText(server.getHost());
+			full.fire();
+		} else {
+			// Person is null, remove all the text.
+//			firstNameLabel.setText("");
+//			lastNameLabel.setText("");
+//			streetLabel.setText("");
+//			postalCodeLabel.setText("");
+//			cityLabel.setText("");
+//			birthdayLabel.setText("");
+		}
+	}
     
     /**
      * Fills all text fields to show details about the person.
