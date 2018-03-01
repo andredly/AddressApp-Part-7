@@ -1,22 +1,20 @@
 package ch.makery.address;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.prefs.Preferences;
-
+import ch.makery.address.model.Person;
+import ch.makery.address.model.PersonListWrapper;
 import ch.makery.address.model.ServerData;
-import ch.makery.address.view.*;
+import ch.makery.address.view.PersonEditDialogController;
+import ch.makery.address.view.RootWindowController;
+import ch.makery.address.view.ServerTabOverviewController;
+import ch.makery.address.view.TabOverviewController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,10 +22,10 @@ import javafx.stage.Stage;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-
-import ch.makery.address.model.Person;
-import ch.makery.address.model.PersonListWrapper;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.prefs.Preferences;
 
 public class MainApp extends Application {
 
