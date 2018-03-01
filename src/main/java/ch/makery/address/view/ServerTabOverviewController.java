@@ -11,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 
@@ -125,11 +124,7 @@ public class ServerTabOverviewController {
             personTable.getItems().remove(selectedIndex);
         } else {
             // Nothing selected.
-            Dialogs.create()
-                    .title("No Selection")
-                    .masthead("No Person Selected")
-                    .message("Please select a person in the table.")
-                    .showWarning();
+
         }
     }
 
@@ -223,11 +218,7 @@ public class ServerTabOverviewController {
             personTable.getItems().remove(selectedIndex);
         } else {
             // Nothing selected.
-            Dialogs.create()
-                    .title("No Selection")
-                    .masthead("No Person Selected")
-                    .message("Please select a person in the table.")
-                    .showWarning();
+
         }
     }
 
@@ -259,11 +250,7 @@ public class ServerTabOverviewController {
 
         } else {
             // Nothing selected.
-            Dialogs.create()
-                    .title("No Selection")
-                    .masthead("No Person Selected")
-                    .message("Please select a person in the table.")
-                    .showWarning();
+
         }
     }
 }

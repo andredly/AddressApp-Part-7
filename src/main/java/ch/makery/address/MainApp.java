@@ -25,7 +25,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import org.controlsfx.dialog.Dialogs;
 
 import ch.makery.address.model.Person;
 import ch.makery.address.model.PersonListWrapper;
@@ -288,10 +287,7 @@ public class MainApp extends Application {
 			setPersonFilePath(file);
 
 		} catch (Exception e) { // catches ANY exception
-			Dialogs.create()
-					.title("Error")
-					.masthead("Could not load data from file:\n" + file.getPath())
-					.showException(e);
+
 		}
 	}
 
@@ -317,9 +313,7 @@ public class MainApp extends Application {
 			// Save the file path to the registry.
 			setPersonFilePath(file);
 		} catch (Exception e) { // catches ANY exception
-			Dialogs.create().title("Error")
-					.masthead("Could not save data to file:\n" + file.getPath())
-					.showException(e);
+
 		}
 	}
 

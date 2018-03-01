@@ -8,7 +8,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 import javafx.stage.FileChooser;
-import org.controlsfx.dialog.Dialogs;
 
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
@@ -135,11 +134,7 @@ public class PersonOverviewController {
 			personTable.getItems().remove(selectedIndex);
 		} else {
 			// Nothing selected.
-			Dialogs.create()
-		        .title("No Selection")
-		        .masthead("No Person Selected")
-		        .message("Please select a person in the table.")
-		        .showWarning();
+
 		}
 	}
 	
@@ -171,11 +166,7 @@ public class PersonOverviewController {
 
 		} else {
 			// Nothing selected.
-			Dialogs.create()
-				.title("No Selection")
-				.masthead("No Person Selected")
-				.message("Please select a person in the table.")
-				.showWarning();
+
 		}
 	}
 

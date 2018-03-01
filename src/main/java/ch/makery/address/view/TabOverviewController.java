@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import org.controlsfx.dialog.Dialogs;
 
 public class TabOverviewController {
     @FXML
@@ -108,11 +107,7 @@ public class TabOverviewController {
 			personTable.getItems().remove(selectedIndex);
 		} else {
 			// Nothing selected.
-			Dialogs.create()
-		        .title("No Selection")
-		        .masthead("No Person Selected")
-		        .message("Please select a person in the table.")
-		        .showWarning();
+
 		}
 	}
 
@@ -144,11 +139,7 @@ public class TabOverviewController {
 
 		} else {
 			// Nothing selected.
-			Dialogs.create()
-				.title("No Selection")
-				.masthead("No Person Selected")
-				.message("Please select a person in the table.")
-				.showWarning();
+
 		}
 	}
 }

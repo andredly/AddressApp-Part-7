@@ -3,7 +3,6 @@ package ch.makery.address.view;
 import ch.makery.address.MainApp;
 import javafx.fxml.FXML;
 import javafx.stage.FileChooser;
-import org.controlsfx.dialog.Dialogs;
 
 import java.io.File;
 
@@ -108,11 +107,7 @@ public class RootWindowController {
      */
     @FXML
     private void handleAbout() {
-		Dialogs.create()
-	        .title("AddressApp")
-	        .masthead("About")
-	        .message("Author: Marco Jakob\nWebsite: http://code.makery.ch")
-	        .showInformation();
+
     }
 
     /**
