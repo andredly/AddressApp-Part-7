@@ -170,4 +170,9 @@ public class ServerData {
     public void setBundleNames(List<String> bundleNames) {
         this.bundleNames = bundleNames;
     }
+
+    @Override
+    public String toString() {
+        return host.get() + ":" + port.get();
+    }
 }

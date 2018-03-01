@@ -5,7 +5,10 @@ import ch.makery.address.model.Person;
 import ch.makery.address.model.ServerData;
 import ch.makery.address.model.TypeEnvironment;
 import ch.makery.address.util.DateUtil;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxListCell;
@@ -13,6 +16,10 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ServerTabOverviewController {
 
@@ -61,76 +68,71 @@ public class ServerTabOverviewController {
     @FXML
     private CheckBox installLocal;
 
+    @FXML
+    private Button addServer;
+
+    @FXML
+    private Button removeServer;
+
     private ServerData serverData;
 
-    private final ToggleGroup group = new ToggleGroup();
+    @FXML
+    private ToggleGroup typeDeploy;
 
-
-    @FXML
-    private TableView<Person> personTable;
-    @FXML
-    private TableColumn<Person, String> firstNameColumn;
-    @FXML
-    private TableColumn<Person, String> lastNameColumn;
-
-    @FXML
-    private Label firstNameLabel;
-    @FXML
-    private Label lastNameLabel;
-    @FXML
-    private Label streetLabel;
-    @FXML
-    private Label postalCodeLabel;
-    @FXML
-    private Label cityLabel;
-    @FXML
-    private Label birthdayLabel;
-
-    // Reference to the main application.
     private MainApp mainApp;
 
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
     public ServerTabOverviewController() {
     }
 
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
     @FXML
     private void initialize() {
 
-//        listView.getSelectionModel().select(N);
         showSeverDetails(null);
-
         listServer.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.serverData = newValue;
                     showSeverDetails(newValue);
                 });
-        full.setToggleGroup(group);
-        content.setToggleGroup(group);
-        bundle.setToggleGroup(group);
+//        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
+//            public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
+//
+//                if (group.getSelectedToggle() != null) {
+//
+//                    System.out.println(group.getSelectedToggle().getUserData().toString());
+//                    // Do something here with the userData of newly selected radioButton
+//
+//                }
+//
+//            }
+//        });
+    }
+
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+        listServer.setItems(mainApp.getServerDataList());
+        listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        listServer.getSelectionModel().selectFirst();
+//todo NULL
+        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     private void handleAddServer() {
-        ServerData serverData = new ServerData();
-        int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            personTable.getItems().remove(selectedIndex);
-        } else {
-            // Nothing selected.
-
-        }
+        ServerData server = new ServerData();
+        server.setProjectPath("");
+        server.setServerName("");
+        server.setHost("");
+        server.setPort(0);
+        server.setBundleNames(new ArrayList<>());
+        server.setFull(true);
+        server.setInstallLocal(true);
+        server.setInstallPackage(true);
+        server.setTypeEnvironment(TypeEnvironment.AUTHOR);
+        mainApp.getServerDataList().add(server);
     }
 
     @FXML
     private void handleOpen() {
-
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("AEM Projects");
         //todo message invalid firectory, set default directory, @NotNull
@@ -143,114 +145,38 @@ public class ServerTabOverviewController {
         showSeverDetails(serverData);
     }
 
-    /**
-     * Is called by the main application to give a reference back to itself.
-     *
-     * @param mainApp
-     */
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-        listServer.setItems(mainApp.getServerDataList());
-        listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        listServer.getSelectionModel().selectFirst();
-//todo NULL
-        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
-    }
-
 
     private void showSeverDetails(ServerData server) {
         if (server != null) {
-            // Fill the labels with info from the person object.
             serverPath.setText(server.getProjectPath());
             host.setText(server.getHost());
             port.setText(Integer.toString(server.getPort()));
             host.setText(server.getHost());
-            full.setSelected(true);
+            full.setSelected(server.isFull());
+            typeEnvironment.setValue(server.getTypeEnvironment());
             typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
             bundleNames.setItems(FXCollections.observableArrayList(server.getBundleNames()));
             skipTest.setSelected(true);
             installPackage.setSelected(true);
             installLocal.setSelected(true);
-        } else {
-            // Person is null, remove all the text.
-//			firstNameLabel.setText("");
-//			lastNameLabel.setText("");
-//			streetLabel.setText("");
-//			postalCodeLabel.setText("");
-//			cityLabel.setText("");
-//			birthdayLabel.setText("");
         }
     }
 
-    /**
-     * Fills all text fields to show details about the person.
-     * If the specified person is null, all text fields are cleared.
-     *
-     * @param person the person or null
-     */
-    private void showPersonDetails(Person person) {
-        if (person != null) {
-            // Fill the labels with info from the person object.
-            firstNameLabel.setText(person.getFirstName());
-            lastNameLabel.setText(person.getLastName());
-            streetLabel.setText(person.getStreet());
-            postalCodeLabel.setText(Integer.toString(person.getPostalCode()));
-            cityLabel.setText(person.getCity());
-            birthdayLabel.setText(DateUtil.format(person.getBirthday()));
-        } else {
-            // Person is null, remove all the text.
-            firstNameLabel.setText("");
-            lastNameLabel.setText("");
-            streetLabel.setText("");
-            postalCodeLabel.setText("");
-            cityLabel.setText("");
-            birthdayLabel.setText("");
-        }
-    }
-
-    /**
-     * Called when the user clicks on the delete button.
-     */
     @FXML
-    private void handleDeletePerson() {
-        int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            personTable.getItems().remove(selectedIndex);
-        } else {
-            // Nothing selected.
-
-        }
+    private void changeTypeEnvironment(){
+        TypeEnvironment value = typeEnvironment.getValue();
+        listServer.getSelectionModel().getSelectedItem().setTypeEnvironment(value);
     }
 
-    /**
-     * Called when the user clicks the new button. Opens a dialog to edit
-     * details for a new person.
-     */
     @FXML
-    private void handleNewPerson() {
-        Person tempPerson = new Person();
-        boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
-        if (okClicked) {
-            mainApp.getPersonData().add(tempPerson);
-        }
-    }
-
-    /**
-     * Called when the user clicks the edit button. Opens a dialog to edit
-     * details for the selected person.
-     */
-    @FXML
-    private void handleEditPerson() {
-        Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
-        if (selectedPerson != null) {
-            boolean okClicked = mainApp.showPersonEditDialog(selectedPerson);
-            if (okClicked) {
-                showPersonDetails(selectedPerson);
-            }
-
-        } else {
-            // Nothing selected.
+    private void changeGroupRadioButton(){
+        RadioButton selectedToggle = (RadioButton) typeDeploy.getSelectedToggle();
+        if(selectedToggle.getId().equals("full")){
 
         }
+        ObservableList<Toggle> toggles = typeDeploy.getToggles();
+
+        listServer.getSelectionModel().getSelectedItem();
     }
+
 }

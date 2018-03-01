@@ -1,28 +1,16 @@
 package ch.makery.address.util;
 
-import javax.xml.parsers.DocumentBuilder;
- import javax.xml.parsers.DocumentBuilderFactory;
- import javax.xml.xpath.XPath;
- import javax.xml.xpath.XPathConstants;
- import javax.xml.xpath.XPathExpression;
- import javax.xml.xpath.XPathFactory;
-
 import org.apache.commons.io.FileUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.parser.Parser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Optional;
 
 public class SimpleParsing {
      public static void main(String[] args) throws Exception {
