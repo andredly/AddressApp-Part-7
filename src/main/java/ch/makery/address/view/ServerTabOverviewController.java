@@ -1,25 +1,22 @@
 package ch.makery.address.view;
 
 import ch.makery.address.MainApp;
-import ch.makery.address.model.Person;
 import ch.makery.address.model.ServerData;
 import ch.makery.address.model.TypeEnvironment;
-import ch.makery.address.util.DateUtil;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import ch.makery.address.util.SimpleParsing;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class ServerTabOverviewController {
 
@@ -85,13 +82,17 @@ public class ServerTabOverviewController {
     }
 
     @FXML
-    private void initialize() {
+    private void initialize() throws ParserConfigurationException, SAXException, IOException {
 
         showSeverDetails(null);
         listServer.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.serverData = newValue;
-                    showSeverDetails(newValue);
+                    try {
+                        showSeverDetails(newValue);
+                    } catch (IOException | SAXException | ParserConfigurationException e) {
+                        e.printStackTrace();
+                    }
                 });
 //        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
 //            public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
@@ -107,7 +108,7 @@ public class ServerTabOverviewController {
 //        });
     }
 
-    public void setMainApp(MainApp mainApp) {
+    public void setMainApp(MainApp mainApp) throws ParserConfigurationException, SAXException, IOException {
         this.mainApp = mainApp;
         listServer.setItems(mainApp.getServerDataList());
         listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -132,21 +133,35 @@ public class ServerTabOverviewController {
     }
 
     @FXML
-    private void handleOpen() {
-        DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("AEM Projects");
-        //todo message invalid firectory, set default directory, @NotNull
-        File defaultDirectory = new File("c:/");
-        chooser.setInitialDirectory(defaultDirectory);
-        File selectedDirectory = chooser.showDialog(new Stage());
-        selectedDirectory = selectedDirectory == null ? defaultDirectory : selectedDirectory;
-//todo message invalid firectory
-        this.serverData.setProjectPath(selectedDirectory.getPath());
-        showSeverDetails(serverData);
+    private void handleOpen() throws ParserConfigurationException, SAXException, IOException {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "XML files (*.xml)", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+        if (file != null) {
+//            mainApp.loadPersonDataFromFile(file);
+//            this.serverData.setProjectPath(file.getPath());
+            listServer.getSelectionModel().getSelectedItem().setProjectPath(file.getPath());
+//            listServer.getSelectionModel().getSelectedItem().setBundleNames();
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        }
+
+
+//        DirectoryChooser chooser = new DirectoryChooser();
+//        chooser.setTitle("AEM Projects");
+//        //todo message invalid firectory, set default directory, @NotNull
+//        File defaultDirectory = new File("c:/");
+//        chooser.setInitialDirectory(defaultDirectory);
+//        File selectedDirectory = chooser.showDialog(new Stage());
+//        selectedDirectory = selectedDirectory == null ? defaultDirectory : selectedDirectory;
+////todo message invalid firectory
+//        this.serverData.setProjectPath(selectedDirectory.getPath());
+//        showSeverDetails(serverData);
     }
 
 
-    private void showSeverDetails(ServerData server) {
+    private void showSeverDetails(ServerData server) throws IOException, SAXException, ParserConfigurationException {
         if (server != null) {
             serverPath.setText(server.getProjectPath());
             host.setText(server.getHost());
@@ -155,7 +170,8 @@ public class ServerTabOverviewController {
             full.setSelected(server.isFull());
             typeEnvironment.setValue(server.getTypeEnvironment());
             typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
-            bundleNames.setItems(FXCollections.observableArrayList(server.getBundleNames()));
+            bundleNames.setItems(FXCollections.observableArrayList(SimpleParsing.getListBundles(server.getProjectPath())));
+//            bundleNames.setItems(FXCollections.observableArrayList(server.getBundleNames()));
             skipTest.setSelected(true);
             installPackage.setSelected(true);
             installLocal.setSelected(true);

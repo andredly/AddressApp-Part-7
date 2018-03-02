@@ -19,10 +19,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -73,7 +75,7 @@ public class MainApp extends Application {
 	}
 
 	@Override
-	public void start(Stage primaryStage) {
+	public void start(Stage primaryStage) throws ParserConfigurationException, SAXException {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Server operations");
 
@@ -141,7 +143,7 @@ public class MainApp extends Application {
 	}
 
 
-	public void showServerTabOverview() {
+	public void showServerTabOverview() throws ParserConfigurationException, SAXException {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();

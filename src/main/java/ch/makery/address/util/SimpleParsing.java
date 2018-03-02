@@ -27,7 +27,7 @@ public class SimpleParsing {
         doc.getDocumentElement().normalize();
         List<String> list = getListElements(doc);
         if (list.contains(BUNDLES)) {
-            fXmlFile = new File(BUNDLES + "/" + path);
+            fXmlFile = new File(path.replace("poms.xml", BUNDLES + "/" + "poms.xml"));
         }
         doc = dBuilder.parse(fXmlFile);
         doc.getDocumentElement().normalize();
