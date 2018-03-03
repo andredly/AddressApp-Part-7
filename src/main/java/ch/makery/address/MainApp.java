@@ -49,13 +49,13 @@ public class MainApp extends Application {
 
 		// Add some sample data
 		ServerData serverData = new ServerData();
-		serverData.setProjectPath("path");
+		serverData.setProjectPath("");
 		serverData.setServerName("name");
 		serverData.setHost("host");
 		serverData.setBundleNames(Arrays.asList("one", "two"));
 //		serverData.setTypeEnvironment(TypeEnvironment.PUBLISH);
 		ServerData serverData1 = new ServerData();
-		serverData1.setProjectPath("path1");
+		serverData1.setProjectPath("");
 		serverData1.setServerName("name1");
 		serverData1.setHost("host1");
 		serverData1.setBundleNames(Arrays.asList("one1", "two1"));

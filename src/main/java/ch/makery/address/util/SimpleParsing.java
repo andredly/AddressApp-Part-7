@@ -1,5 +1,6 @@
 package ch.makery.address.util;
 
+import com.google.common.collect.ImmutableList;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,18 +17,23 @@ import java.util.List;
 
 public class SimpleParsing {
 
+    private static final String POM = "poms.xml";
     private static final String BUNDLES = "bundles";
     private static final String MODULES = "modules";
 
     public static List<String> getListBundles(String path) throws ParserConfigurationException, IOException, SAXException {
-        File fXmlFile = new File(path);
+        if (path.isEmpty()) {
+            return ImmutableList.of();
+        }
+        String filePath = path + "/" + POM;
+        File fXmlFile = new File(filePath);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(fXmlFile);
         doc.getDocumentElement().normalize();
         List<String> list = getListElements(doc);
         if (list.contains(BUNDLES)) {
-            fXmlFile = new File(path.replace("poms.xml", BUNDLES + "/" + "poms.xml"));
+            fXmlFile = new File(filePath.replace(POM, BUNDLES + "/" + POM));
         }
         doc = dBuilder.parse(fXmlFile);
         doc.getDocumentElement().normalize();

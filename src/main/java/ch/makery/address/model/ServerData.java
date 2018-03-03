@@ -12,13 +12,31 @@ public class ServerData {
     private StringProperty host;
     private IntegerProperty port;
     private TypeEnvironment typeEnvironment;
-    private BooleanProperty full;
-    private BooleanProperty content;
-    private BooleanProperty bundle;
+    private TypeDeployRadioButton typeDeployRadioButton;
     private BooleanProperty skipTest;
     private List<String> bundleNames;
     private BooleanProperty installPackage;
     private BooleanProperty installLocal;
+
+    public ServerData() {
+        this.serverName = new SimpleStringProperty();
+        this.projectPath = new SimpleStringProperty();
+        this.host = new SimpleStringProperty();
+        this.port = new SimpleIntegerProperty();
+        this.skipTest = new SimpleBooleanProperty();
+        this.host = new SimpleStringProperty();
+        this.bundleNames = new ArrayList<>();
+        this.installPackage = new SimpleBooleanProperty();
+        this.installLocal = new SimpleBooleanProperty();
+    }
+
+    public TypeDeployRadioButton getTypeDeployRadioButton() {
+        return typeDeployRadioButton;
+    }
+
+    public void setTypeDeployRadioButton(TypeDeployRadioButton typeDeployRadioButton) {
+        this.typeDeployRadioButton = typeDeployRadioButton;
+    }
 
     public boolean isInstallPackage() {
         return installPackage.get();
@@ -44,20 +62,6 @@ public class ServerData {
         this.installLocal.set(installLocal);
     }
 
-    public ServerData() {
-        this.serverName = new SimpleStringProperty();
-        this.projectPath = new SimpleStringProperty();
-        this.host = new SimpleStringProperty();
-        this.port = new SimpleIntegerProperty();
-        this.full = new SimpleBooleanProperty();
-        this.content = new SimpleBooleanProperty();
-        this.bundle = new SimpleBooleanProperty();
-        this.skipTest = new SimpleBooleanProperty();
-        this.host = new SimpleStringProperty();
-        this.bundleNames = new ArrayList<>();
-        this.installPackage = new SimpleBooleanProperty();
-        this.installLocal = new SimpleBooleanProperty();
-    }
 
     public String getServerName() {
         return serverName.get();
@@ -113,42 +117,6 @@ public class ServerData {
 
     public void setTypeEnvironment(TypeEnvironment typeEnvironment) {
         this.typeEnvironment = typeEnvironment;
-    }
-
-    public boolean isFull() {
-        return full.get();
-    }
-
-    public BooleanProperty fullProperty() {
-        return full;
-    }
-
-    public void setFull(boolean full) {
-        this.full.set(full);
-    }
-
-    public boolean isContent() {
-        return content.get();
-    }
-
-    public BooleanProperty contentProperty() {
-        return content;
-    }
-
-    public void setContent(boolean content) {
-        this.content.set(content);
-    }
-
-    public boolean isBundle() {
-        return bundle.get();
-    }
-
-    public BooleanProperty bundleProperty() {
-        return bundle;
-    }
-
-    public void setBundle(boolean bundle) {
-        this.bundle.set(bundle);
     }
 
     public boolean isSkipTest() {

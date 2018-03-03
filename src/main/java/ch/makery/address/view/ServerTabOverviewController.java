@@ -2,6 +2,7 @@ package ch.makery.address.view;
 
 import ch.makery.address.MainApp;
 import ch.makery.address.model.ServerData;
+import ch.makery.address.model.TypeDeployRadioButton;
 import ch.makery.address.model.TypeEnvironment;
 import ch.makery.address.util.SimpleParsing;
 import javafx.collections.FXCollections;
@@ -125,7 +126,6 @@ public class ServerTabOverviewController {
         server.setHost("");
         server.setPort(0);
         server.setBundleNames(new ArrayList<>());
-        server.setFull(true);
         server.setInstallLocal(true);
         server.setInstallPackage(true);
         server.setTypeEnvironment(TypeEnvironment.AUTHOR);
@@ -134,30 +134,30 @@ public class ServerTabOverviewController {
 
     @FXML
     private void handleOpen() throws ParserConfigurationException, SAXException, IOException {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-        if (file != null) {
-//            mainApp.loadPersonDataFromFile(file);
-//            this.serverData.setProjectPath(file.getPath());
-            listServer.getSelectionModel().getSelectedItem().setProjectPath(file.getPath());
-//            listServer.getSelectionModel().getSelectedItem().setBundleNames();
-            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
-        }
+//        FileChooser fileChooser = new FileChooser();
+//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+//                "XML files (*.xml)", "*.xml");
+//        fileChooser.getExtensionFilters().add(extFilter);
+//        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+//        if (file != null) {
+////            mainApp.loadPersonDataFromFile(file);
+////            this.serverData.setProjectPath(file.getPath());
+//            listServer.getSelectionModel().getSelectedItem().setProjectPath(file.getPath());
+////            listServer.getSelectionModel().getSelectedItem().setBundleNames();
+//            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+//        }
 
 
-//        DirectoryChooser chooser = new DirectoryChooser();
-//        chooser.setTitle("AEM Projects");
-//        //todo message invalid firectory, set default directory, @NotNull
-//        File defaultDirectory = new File("c:/");
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("AEM Projects");
+        //todo message invalid firectory, set default directory, @NotNull
+//        File defaultDirectory = new File("");
 //        chooser.setInitialDirectory(defaultDirectory);
-//        File selectedDirectory = chooser.showDialog(new Stage());
+        File selectedDirectory = chooser.showDialog(new Stage());
 //        selectedDirectory = selectedDirectory == null ? defaultDirectory : selectedDirectory;
-////todo message invalid firectory
-//        this.serverData.setProjectPath(selectedDirectory.getPath());
-//        showSeverDetails(serverData);
+        //todo message invalid firectory
+        listServer.getSelectionModel().getSelectedItem().setProjectPath(selectedDirectory.getPath());
+        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
 
 
@@ -167,7 +167,7 @@ public class ServerTabOverviewController {
             host.setText(server.getHost());
             port.setText(Integer.toString(server.getPort()));
             host.setText(server.getHost());
-            full.setSelected(server.isFull());
+            typeDeploy.selectToggle();
             typeEnvironment.setValue(server.getTypeEnvironment());
             typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
             bundleNames.setItems(FXCollections.observableArrayList(SimpleParsing.getListBundles(server.getProjectPath())));
@@ -185,14 +185,11 @@ public class ServerTabOverviewController {
     }
 
     @FXML
-    private void changeGroupRadioButton(){
+    private void changeGroupRadioButton() throws ParserConfigurationException, SAXException, IOException {
         RadioButton selectedToggle = (RadioButton) typeDeploy.getSelectedToggle();
-        if(selectedToggle.getId().equals("full")){
 
-        }
-        ObservableList<Toggle> toggles = typeDeploy.getToggles();
-
-        listServer.getSelectionModel().getSelectedItem();
+        listServer.getSelectionModel().getSelectedItem().setTypeDeployRadioButton(TypeDeployRadioButton.fromString(selectedToggle.getId()));
+        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
 
 }
