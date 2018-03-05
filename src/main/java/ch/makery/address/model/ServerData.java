@@ -14,7 +14,7 @@ public class ServerData {
     private TypeEnvironment typeEnvironment;
     private TypeDeployRadioButton typeDeployRadioButton;
     private BooleanProperty skipTest;
-    private List<String> bundleNames;
+    private String bundleName;
     private BooleanProperty installPackage;
     private BooleanProperty installLocal;
 
@@ -25,7 +25,6 @@ public class ServerData {
         this.port = new SimpleIntegerProperty();
         this.skipTest = new SimpleBooleanProperty();
         this.host = new SimpleStringProperty();
-        this.bundleNames = new ArrayList<>();
         this.installPackage = new SimpleBooleanProperty();
         this.installLocal = new SimpleBooleanProperty();
     }
@@ -131,12 +130,12 @@ public class ServerData {
         this.skipTest.set(skipTest);
     }
 
-    public List<String> getBundleNames() {
-        return bundleNames;
+    public String getBundleName() {
+        return bundleName;
     }
 
-    public void setBundleNames(List<String> bundleNames) {
-        this.bundleNames = bundleNames;
+    public void setBundleName(String bundleName) {
+        this.bundleName = bundleName;
     }
 
     @Override

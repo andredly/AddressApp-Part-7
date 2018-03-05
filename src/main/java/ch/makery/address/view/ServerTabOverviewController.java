@@ -6,23 +6,24 @@ import ch.makery.address.model.TypeDeployRadioButton;
 import ch.makery.address.model.TypeEnvironment;
 import ch.makery.address.util.SimpleParsing;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ServerTabOverviewController {
 
     @FXML
     private ListView<ServerData> listServer;
+
+    @FXML
+    private TextField serverName;
 
     @FXML
     private TextField serverPath;
@@ -46,7 +47,7 @@ public class ServerTabOverviewController {
     private RadioButton content;
 
     @FXML
-    private RadioButton bundle;
+    private RadioButton bundles;
 
     @FXML
     private ComboBox<String> bundleNames;
@@ -84,8 +85,19 @@ public class ServerTabOverviewController {
 
     @FXML
     private void initialize() throws ParserConfigurationException, SAXException, IOException {
-
         showSeverDetails(null);
+        listServer.setEditable(true);
+        listServer.setCellFactory(cell -> {
+            return new ListCell<ServerData>() {
+                @Override
+                protected void updateItem(ServerData item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null) {
+                        setText(item.getServerName());
+                    }
+                }
+            };
+        });
         listServer.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.serverData = newValue;
@@ -95,18 +107,33 @@ public class ServerTabOverviewController {
                         e.printStackTrace();
                     }
                 });
-//        group.selectedToggleProperty().addListener(new ChangeListener<Toggle>(){
-//            public void changed(ObservableValue<? extends Toggle> ov, Toggle old_toggle, Toggle new_toggle) {
-//
-//                if (group.getSelectedToggle() != null) {
-//
-//                    System.out.println(group.getSelectedToggle().getUserData().toString());
-//                    // Do something here with the userData of newly selected radioButton
-//
-//                }
-//
-//            }
-//        });
+        installPackage.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setInstallPackage(newValue);
+            try {
+                showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+            } catch (IOException | SAXException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        });
+        installLocal.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setInstallLocal(newValue);
+            try {
+                showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+            } catch (IOException | SAXException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        });
+        skipTest.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setSkipTest(newValue);
+            try {
+                showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+            } catch (IOException | SAXException | ParserConfigurationException e) {
+                e.printStackTrace();
+            }
+        });
+        full.setUserData(TypeDeployRadioButton.FULL);
+        content.setUserData(TypeDeployRadioButton.CONTENT);
+        bundles.setUserData(TypeDeployRadioButton.BUNDLES);
     }
 
     public void setMainApp(MainApp mainApp) throws ParserConfigurationException, SAXException, IOException {
@@ -115,20 +142,24 @@ public class ServerTabOverviewController {
         listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         listServer.getSelectionModel().selectFirst();
 //todo NULL
-        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+//        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
 
     @FXML
     private void handleAddServer() {
         ServerData server = new ServerData();
         server.setProjectPath("");
-        server.setServerName("");
+        server.setServerName("default");
         server.setHost("");
         server.setPort(0);
-        server.setBundleNames(new ArrayList<>());
+        server.setBundleName("");
+        server.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
         server.setInstallLocal(true);
         server.setInstallPackage(true);
         server.setTypeEnvironment(TypeEnvironment.AUTHOR);
+        server.setInstallPackage(true);
+        server.setInstallLocal(true);
+        server.setSkipTest(true);
         mainApp.getServerDataList().add(server);
     }
 
@@ -163,18 +194,37 @@ public class ServerTabOverviewController {
 
     private void showSeverDetails(ServerData server) throws IOException, SAXException, ParserConfigurationException {
         if (server != null) {
+            serverName.setText(server.getServerName());
             serverPath.setText(server.getProjectPath());
             host.setText(server.getHost());
             port.setText(Integer.toString(server.getPort()));
             host.setText(server.getHost());
-            typeDeploy.selectToggle();
+            Toggle elem = typeDeploy.getToggles()
+                    .stream()
+                    .filter(el -> server.getTypeDeployRadioButton() != null && el.getUserData().toString().equals(server.getTypeDeployRadioButton().name()))
+                    .findAny()
+                    .orElse(null);
+            typeDeploy.selectToggle(elem);
             typeEnvironment.setValue(server.getTypeEnvironment());
             typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
+            bundleNames.setValue(server.getBundleName());
             bundleNames.setItems(FXCollections.observableArrayList(SimpleParsing.getListBundles(server.getProjectPath())));
-//            bundleNames.setItems(FXCollections.observableArrayList(server.getBundleNames()));
-            skipTest.setSelected(true);
-            installPackage.setSelected(true);
-            installLocal.setSelected(true);
+            skipTest.setSelected(server.isSkipTest());
+            installPackage.setSelected(server.isInstallPackage());
+            installLocal.setSelected(server.isInstallLocal());
+            if(elem.getUserData().toString().equals(TypeDeployRadioButton.FULL.name())) {
+                installPackage.setDisable(false);
+                installLocal.setDisable(false);
+            } else {
+                installPackage.setDisable(true);
+                installLocal.setDisable(true);
+            }
+            if(bundles.isSelected()) {
+                bundleNames.setDisable(false);
+            } else {
+                bundleNames.setDisable(true);
+            }
+
         }
     }
 
@@ -187,9 +237,14 @@ public class ServerTabOverviewController {
     @FXML
     private void changeGroupRadioButton() throws ParserConfigurationException, SAXException, IOException {
         RadioButton selectedToggle = (RadioButton) typeDeploy.getSelectedToggle();
-
         listServer.getSelectionModel().getSelectedItem().setTypeDeployRadioButton(TypeDeployRadioButton.fromString(selectedToggle.getId()));
         showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
 
+    @FXML
+    private void changeBundles() throws ParserConfigurationException, SAXException, IOException {
+        String selectedItem = bundleNames.getSelectionModel().getSelectedItem();
+        listServer.getSelectionModel().getSelectedItem().setBundleName(selectedItem);
+        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+    }
 }

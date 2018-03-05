@@ -12,43 +12,74 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane prefHeight="577.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.makery.address.view.ServerTabOverviewController">
+<AnchorPane prefHeight="577.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/9.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.makery.address.view.ServerTabOverviewController">
     <children>
-        <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <items>
                 <AnchorPane>
                     <children>
-                        <ListView fx:id="listServer" layoutY="33.0" prefHeight="542.0" prefWidth="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
-                        <Button fx:id="addServer" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleAddServer" text="Add server" />
-                        <Button fx:id="removeServer" layoutX="103.0" layoutY="14.0" mnemonicParsing="false" text="Remove server" />
+                        <ListView fx:id="listServer" layoutY="33.0" prefHeight="542.0" prefWidth="222.0"
+                                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                                  AnchorPane.topAnchor="50.0"/>
+                        <Button fx:id="addServer" layoutX="14.0" layoutY="14.0" mnemonicParsing="false"
+                                onAction="#handleAddServer" text="Add server"/>
+                        <Button fx:id="removeServer" layoutX="103.0" layoutY="14.0" mnemonicParsing="false"
+                                text="Remove server"/>
                     </children>
                 </AnchorPane>
                 <AnchorPane>
                     <children>
-                        <Pane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <Pane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <children>
-                                <Label layoutX="31.0" layoutY="24.0" prefHeight="17.0" prefWidth="222.0" text="Select project path" />
-                                <TextField fx:id="serverPath" layoutX="31.0" layoutY="49.0" prefHeight="25.0" prefWidth="478.0" />
-                                <Button fx:id="path" layoutX="525.0" layoutY="49.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="25.0" prefWidth="119.0" text="Path" />
-                                <Label layoutX="29.0" layoutY="97.0" prefHeight="17.0" prefWidth="39.0" text="Host:" />
-                                <TextField fx:id="host" layoutX="68.0" layoutY="93.0" prefHeight="25.0" prefWidth="272.0" />
-                                <Label layoutX="354.0" layoutY="97.0" prefHeight="17.0" prefWidth="39.0" text="Port:" />
-                                <TextField fx:id="port" layoutX="393.0" layoutY="93.0" prefHeight="25.0" prefWidth="119.0" />
-                                <ComboBox fx:id="typeEnvironment" layoutX="158.0" layoutY="132.0" onAction="#changeTypeEnvironment" prefWidth="150.0" />
-                                <Label layoutX="31.0" layoutY="136.0" prefHeight="17.0" prefWidth="119.0" text="Type environments:" />
-                                <RadioButton fx:id="full" layoutX="29.0" layoutY="199.0" mnemonicParsing="false" onAction="#changeGroupRadioButton" selected="true" text="Full">
-                           <toggleGroup>
-                              <ToggleGroup fx:id="typeDeploy" />
-                           </toggleGroup></RadioButton>
-                                <RadioButton fx:id="content" layoutX="29.0" layoutY="227.0" mnemonicParsing="false" onAction="#changeGroupRadioButton" text="Content" toggleGroup="$typeDeploy" />
-                                <RadioButton fx:id="bundle" layoutX="30.0" layoutY="255.0" mnemonicParsing="false" onAction="#changeGroupRadioButton" text="Bundles" toggleGroup="$typeDeploy" />
-                                <ComboBox fx:id="bundleNames" layoutX="120.0" layoutY="251.0" prefWidth="150.0" />
-                                <RadioButton fx:id="skipTest" layoutX="32.0" layoutY="310.0" mnemonicParsing="false" text="Skip tests" />
-                                <Label layoutX="31.0" layoutY="173.0" prefHeight="17.0" prefWidth="119.0" text="Type deploy:" />
-                                <Button fx:id="deploy" layoutX="35.0" layoutY="365.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Deploy" />
-                                <Button fx:id="saveChange" layoutX="33.0" layoutY="461.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="119.0" text="Save change" />
-                                <CheckBox fx:id="installPackage" layoutX="114.0" layoutY="199.0" mnemonicParsing="false" text="InstallPackage" />
-                                <CheckBox fx:id="installLocal" layoutX="233.0" layoutY="199.0" mnemonicParsing="false" text="InstallLocal" />
+                                <Label layoutX="21.0" layoutY="62.0" prefHeight="17.0" prefWidth="222.0"
+                                       text="Select project path"/>
+                                <TextField fx:id="serverPath" layoutX="21.0" layoutY="87.0" prefHeight="25.0"
+                                           prefWidth="478.0"/>
+                                <Button fx:id="path" layoutX="521.0" layoutY="87.0" mnemonicParsing="false"
+                                        onAction="#handleOpen" prefHeight="25.0" prefWidth="119.0" text="Path"/>
+                                <Label layoutX="21.0" layoutY="130.0" prefHeight="17.0" prefWidth="39.0" text="Host:"/>
+                                <TextField fx:id="host" layoutX="70.0" layoutY="126.0" prefHeight="25.0"
+                                           prefWidth="272.0"/>
+                                <Label layoutX="354.0" layoutY="130.0" prefHeight="17.0" prefWidth="39.0" text="Port:"/>
+                                <TextField fx:id="port" layoutX="393.0" layoutY="126.0" prefHeight="25.0"
+                                           prefWidth="119.0"/>
+                                <ComboBox fx:id="typeEnvironment" layoutX="158.0" layoutY="165.0"
+                                          onAction="#changeTypeEnvironment" prefWidth="150.0"/>
+                                <Label layoutX="28.0" layoutY="169.0" prefHeight="17.0" prefWidth="119.0"
+                                       text="Type environments:"/>
+                                <RadioButton fx:id="full" layoutX="29.0" layoutY="223.0" mnemonicParsing="false"
+                                             onAction="#changeGroupRadioButton" selected="true" text="Full">
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="typeDeploy"/>
+                                    </toggleGroup>
+                                </RadioButton>
+                                <RadioButton fx:id="content" layoutX="28.0" layoutY="255.0" mnemonicParsing="false"
+                                             onAction="#changeGroupRadioButton" text="Content"
+                                             toggleGroup="$typeDeploy"/>
+                                <RadioButton fx:id="bundles" layoutX="29.0" layoutY="288.0" mnemonicParsing="false"
+                                             onAction="#changeGroupRadioButton" text="Bundles"
+                                             toggleGroup="$typeDeploy"/>
+                                <ComboBox fx:id="bundleNames" layoutX="114.0" layoutY="284.0" onAction="#changeBundles"
+                                          prefWidth="150.0"/>
+                                <RadioButton fx:id="skipTest" layoutX="32.0" layoutY="350.0" mnemonicParsing="false"
+                                             text="Skip tests"/>
+                                <Label layoutX="28.0" layoutY="199.0" prefHeight="17.0" prefWidth="119.0"
+                                       text="Type deploy:"/>
+                                <Button fx:id="deploy" layoutX="33.0" layoutY="394.0" mnemonicParsing="false"
+                                        prefHeight="25.0" prefWidth="141.0" text="Deploy"/>
+                                <Button fx:id="saveChange" layoutX="33.0" layoutY="461.0" mnemonicParsing="false"
+                                        prefHeight="25.0" prefWidth="119.0" text="Save change"/>
+                                <CheckBox fx:id="installPackage" layoutX="110.0" layoutY="223.0" mnemonicParsing="false"
+                                          text="InstallPackage"/>
+                                <CheckBox fx:id="installLocal" layoutX="224.0" layoutY="223.0" mnemonicParsing="false"
+                                          text="InstallLocal"/>
+                                <TextField fx:id="serverName" layoutX="125.0" layoutY="26.0" prefHeight="25.0"
+                                           prefWidth="375.0"/>
+                                <Label layoutX="21.0" layoutY="30.0" prefHeight="17.0" prefWidth="94.0"
+                                       text="Server name"/>
                             </children>
                         </Pane>
                     </children>

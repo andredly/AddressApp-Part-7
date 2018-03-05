@@ -1,9 +1,6 @@
 package ch.makery.address;
 
-import ch.makery.address.model.Person;
-import ch.makery.address.model.PersonListWrapper;
-import ch.makery.address.model.ServerData;
-import ch.makery.address.model.TypeEnvironment;
+import ch.makery.address.model.*;
 import ch.makery.address.view.PersonEditDialogController;
 import ch.makery.address.view.RootWindowController;
 import ch.makery.address.view.ServerTabOverviewController;
@@ -52,13 +49,15 @@ public class MainApp extends Application {
 		serverData.setProjectPath("");
 		serverData.setServerName("name");
 		serverData.setHost("host");
-		serverData.setBundleNames(Arrays.asList("one", "two"));
+		serverData.setBundleName("");
+		serverData.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
 //		serverData.setTypeEnvironment(TypeEnvironment.PUBLISH);
 		ServerData serverData1 = new ServerData();
 		serverData1.setProjectPath("");
 		serverData1.setServerName("name1");
 		serverData1.setHost("host1");
-		serverData1.setBundleNames(Arrays.asList("one1", "two1"));
+		serverData1.setBundleName("");
+		serverData1.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
 		serverData1.setTypeEnvironment(TypeEnvironment.AUTHOR);
 		serverDataList.add(serverData);
 		serverDataList.add(serverData1);
