@@ -21,25 +21,35 @@ public class SimpleParsing {
     private static final String BUNDLES = "bundles";
     private static final String MODULES = "modules";
 
-    public static List<String> getListBundles(String path) throws ParserConfigurationException, IOException, SAXException {
-        if (path.isEmpty()) {
-            return ImmutableList.of();
-        }
-        String filePath = path + "/" + POM;
-        File fXmlFile = new File(filePath);
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(fXmlFile);
-        doc.getDocumentElement().normalize();
-        List<String> list = getListElements(doc);
-        if (list.contains(BUNDLES)) {
-            fXmlFile = new File(filePath.replace(POM, BUNDLES + "/" + POM));
-        }
-        doc = dBuilder.parse(fXmlFile);
-        doc.getDocumentElement().normalize();
-        list.clear();
-        return getListElements(doc);
+    public static List<String> getListBundles(String path) {
+        Document doc = null;
+        try {
+            if (path.isEmpty()) {
+                return ImmutableList.of();
+            }
+            String filePath = path + "/" + POM;
+            File fXmlFile = new File(filePath);
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = null;
 
+            dBuilder = dbFactory.newDocumentBuilder();
+
+
+            doc = dBuilder.parse(fXmlFile);
+
+            doc.getDocumentElement().normalize();
+            List<String> list = getListElements(doc);
+            if (list.contains(BUNDLES)) {
+                fXmlFile = new File(filePath.replace(POM, BUNDLES + "/" + POM));
+            }
+            doc = dBuilder.parse(fXmlFile);
+            doc.getDocumentElement().normalize();
+            list.clear();
+
+        } catch (SAXException | IOException | ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        return getListElements(doc);
     }
 
 

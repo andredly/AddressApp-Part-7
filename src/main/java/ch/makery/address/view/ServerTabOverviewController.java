@@ -83,7 +83,7 @@ public class ServerTabOverviewController {
     }
 
     @FXML
-    private void initialize() throws ParserConfigurationException, SAXException, IOException {
+    private void initialize() {
         showSeverDetails(null);
         listServer.setEditable(true);
         listServer.setCellFactory(cell -> {
@@ -100,42 +100,26 @@ public class ServerTabOverviewController {
         listServer.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.serverData = newValue;
-                    try {
-                        showSeverDetails(newValue);
-                    } catch (IOException | SAXException | ParserConfigurationException e) {
-                        e.printStackTrace();
-                    }
+                    showSeverDetails(newValue);
                 });
         installPackage.selectedProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setInstallPackage(newValue);
-            try {
-                showSeverDetails(listServer.getSelectionModel().getSelectedItem());
-            } catch (IOException | SAXException | ParserConfigurationException e) {
-                e.printStackTrace();
-            }
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
         installLocal.selectedProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setInstallLocal(newValue);
-            try {
-                showSeverDetails(listServer.getSelectionModel().getSelectedItem());
-            } catch (IOException | SAXException | ParserConfigurationException e) {
-                e.printStackTrace();
-            }
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
         skipTest.selectedProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setSkipTest(newValue);
-            try {
-                showSeverDetails(listServer.getSelectionModel().getSelectedItem());
-            } catch (IOException | SAXException | ParserConfigurationException e) {
-                e.printStackTrace();
-            }
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
         full.setUserData(TypeDeployRadioButton.FULL);
         content.setUserData(TypeDeployRadioButton.CONTENT);
         bundles.setUserData(TypeDeployRadioButton.BUNDLES);
     }
 
-    public void setMainApp(MainApp mainApp) throws ParserConfigurationException, SAXException, IOException {
+    public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
         listServer.setItems(mainApp.getServerDataList());
         listServer.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -163,7 +147,7 @@ public class ServerTabOverviewController {
     }
 
     @FXML
-    private void handleOpen() throws ParserConfigurationException, SAXException, IOException {
+    private void handleOpen() {
 //        FileChooser fileChooser = new FileChooser();
 //        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
 //                "XML files (*.xml)", "*.xml");
@@ -191,7 +175,7 @@ public class ServerTabOverviewController {
     }
 
 
-    private void showSeverDetails(ServerData server) throws IOException, SAXException, ParserConfigurationException {
+    private void showSeverDetails(ServerData server) {
         if (server != null) {
             serverName.setText(server.getServerName());
             serverPath.setText(server.getProjectPath());
@@ -211,14 +195,14 @@ public class ServerTabOverviewController {
             skipTest.setSelected(server.isSkipTest());
             installPackage.setSelected(server.isInstallPackage());
             installLocal.setSelected(server.isInstallLocal());
-            if(elem.getUserData().toString().equals(TypeDeployRadioButton.FULL.name())) {
+            if (elem.getUserData().toString().equals(TypeDeployRadioButton.FULL.name())) {
                 installPackage.setDisable(false);
                 installLocal.setDisable(false);
             } else {
                 installPackage.setDisable(true);
                 installLocal.setDisable(true);
             }
-            if(bundles.isSelected()) {
+            if (bundles.isSelected()) {
                 bundleNames.setDisable(false);
             } else {
                 bundleNames.setDisable(true);
@@ -228,20 +212,20 @@ public class ServerTabOverviewController {
     }
 
     @FXML
-    private void changeTypeEnvironment(){
+    private void changeTypeEnvironment() {
         TypeEnvironment value = typeEnvironment.getValue();
         listServer.getSelectionModel().getSelectedItem().setTypeEnvironment(value);
     }
 
     @FXML
-    private void changeGroupRadioButton() throws ParserConfigurationException, SAXException, IOException {
+    private void changeGroupRadioButton() {
         RadioButton selectedToggle = (RadioButton) typeDeploy.getSelectedToggle();
         listServer.getSelectionModel().getSelectedItem().setTypeDeployRadioButton(TypeDeployRadioButton.fromString(selectedToggle.getId()));
         showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
 
     @FXML
-    private void changeBundles() throws ParserConfigurationException, SAXException, IOException {
+    private void changeBundles() {
         String selectedItem = bundleNames.getSelectionModel().getSelectedItem();
         listServer.getSelectionModel().getSelectedItem().setBundleName(selectedItem);
         showSeverDetails(listServer.getSelectionModel().getSelectedItem());
