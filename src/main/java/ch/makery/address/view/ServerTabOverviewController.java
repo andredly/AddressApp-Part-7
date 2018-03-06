@@ -72,10 +72,19 @@ public class ServerTabOverviewController {
     @FXML
     private Button removeServer;
 
-    private ServerData serverData;
+    @FXML
+    private TextField login;
+
+    @FXML
+    private TextField password;
+
+    @FXML
+    private Label command;
 
     @FXML
     private ToggleGroup typeDeploy;
+
+    private ServerData serverData;
 
     private MainApp mainApp;
 
