@@ -117,6 +117,10 @@ public class ServerTabOverviewController {
             listServer.getSelectionModel().getSelectedItem().setProjectPath(newValue);
             showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
+        port.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setPort(Integer.valueOf(newValue));
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
         serverName.textProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setServerName(newValue);
             listServer.setCellFactory(cell -> new ListCell<ServerData>() {
@@ -237,8 +241,51 @@ public class ServerTabOverviewController {
             }
             login.setText(server.getLogin());
             password.setText(server.getPassword());
-            command.setText(server.getCommand());
+            command.setText(createCommand(server));
         }
+    }
+
+    private String createCommand(ServerData server) {
+        server.setCommand("");
+        String com = "mvn clean install -T 6 ";
+        String skipTests = "-Dmaven.test.skip=";
+        String port = "-Dsling.port=";
+        String installPackage = "installPackage";
+        String installLocal = "installLocal";
+        String otherCommand = "";
+        String installBundle = "installBundle";
+        StringBuffer command = new StringBuffer(com);
+
+        switch (server.getTypeDeployRadioButton()) {
+            case FULL: {
+                command.append("-P");
+                if (server.isInstallLocal()) {
+                    command.append(installLocal).append(" ");
+                }
+                if (server.isInstallPackage()) {
+                    command.append(installPackage).append(" ");
+                }
+                break;
+            }
+            case CONTENT: {
+                command.append("-P").append(installPackage).append(" ");
+                break;
+            }
+            case BUNDLES: {
+//                command.append(server.getProjectPath())
+//                        .append("/")
+//                        .append(server.getBundleName())
+//                        .append(" ")
+//                        .append(installBundle)
+//                        .append(" ");
+                break;
+            }
+        }
+        if (server.isSkipTest()) {
+            command.append(skipTests).append(true).append(" ");
+        }
+        command.append(port).append(server.getPort()).append(" ");
+        return command.toString();
     }
 
     @FXML
