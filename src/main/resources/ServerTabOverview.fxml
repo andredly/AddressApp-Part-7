@@ -43,7 +43,7 @@
                                 </RadioButton>
                                 <RadioButton fx:id="content" layoutX="20.0" layoutY="288.0" mnemonicParsing="false" onAction="#changeGroupRadioButton" text="Content" toggleGroup="$typeDeploy" />
                                 <RadioButton fx:id="bundles" layoutX="20.0" layoutY="317.0" mnemonicParsing="false" onAction="#changeGroupRadioButton" text="Bundles" toggleGroup="$typeDeploy" />
-                                <ComboBox fx:id="bundleNames" layoutX="110.0" layoutY="313.0" onAction="#changeBundles" prefWidth="150.0" />
+                                <ComboBox fx:id="bundleNames" layoutX="110.0" layoutY="313.0" onAction="#changeBundles" prefHeight="25.0" prefWidth="394.0" />
                                 <RadioButton fx:id="skipTest" layoutX="24.0" layoutY="362.0" mnemonicParsing="false" text="Skip tests" />
                                 <Label layoutX="21.0" layoutY="232.0" prefHeight="17.0" prefWidth="119.0" text="Type deploy:" />
                                 <Button fx:id="deploy" layoutX="25.0" layoutY="439.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Deploy" />

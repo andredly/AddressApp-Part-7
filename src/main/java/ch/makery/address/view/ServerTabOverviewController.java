@@ -113,6 +113,10 @@ public class ServerTabOverviewController {
             listServer.getSelectionModel().getSelectedItem().setSkipTest(newValue);
             showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
+        serverPath.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setProjectPath(newValue);
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
         serverName.textProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setServerName(newValue);
             listServer.setCellFactory(cell -> new ListCell<ServerData>() {
