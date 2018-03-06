@@ -17,6 +17,9 @@ public class ServerData {
     private String bundleName;
     private BooleanProperty installPackage;
     private BooleanProperty installLocal;
+    private StringProperty login;
+    private StringProperty password;
+    private StringProperty command;
 
     public ServerData() {
         this.serverName = new SimpleStringProperty();
@@ -27,6 +30,45 @@ public class ServerData {
         this.host = new SimpleStringProperty();
         this.installPackage = new SimpleBooleanProperty();
         this.installLocal = new SimpleBooleanProperty();
+        this.login = new SimpleStringProperty();
+        this.password = new SimpleStringProperty();
+        this.command = new SimpleStringProperty();
+    }
+
+    public String getLogin() {
+        return login.get();
+    }
+
+    public StringProperty loginProperty() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login.set(login);
+    }
+
+    public String getPassword() {
+        return password.get();
+    }
+
+    public StringProperty passwordProperty() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password.set(password);
+    }
+
+    public String getCommand() {
+        return command.get();
+    }
+
+    public StringProperty commandProperty() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command.set(command);
     }
 
     public TypeDeployRadioButton getTypeDeployRadioButton() {

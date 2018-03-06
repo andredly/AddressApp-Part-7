@@ -95,17 +95,7 @@ public class ServerTabOverviewController {
     private void initialize() {
         showSeverDetails(null);
         listServer.setEditable(true);
-        listServer.setCellFactory(cell -> {
-            return new ListCell<ServerData>() {
-                @Override
-                protected void updateItem(ServerData item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (item != null) {
-                        setText(item.getServerName());
-                    }
-                }
-            };
-        });
+
         listServer.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     this.serverData = newValue;
@@ -121,6 +111,31 @@ public class ServerTabOverviewController {
         });
         skipTest.selectedProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setSkipTest(newValue);
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
+        serverName.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setServerName(newValue);
+            listServer.setCellFactory(cell -> new ListCell<ServerData>() {
+                @Override
+                protected void updateItem(ServerData item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null) {
+                        setText(item.getServerName());
+                    }
+                }
+            });
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
+        login.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setLogin(newValue);
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
+        password.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setPassword(newValue);
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
+        command.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setCommand(newValue);
             showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
         full.setUserData(TypeDeployRadioButton.FULL);
@@ -216,7 +231,9 @@ public class ServerTabOverviewController {
             } else {
                 bundleNames.setDisable(true);
             }
-
+            login.setText(server.getLogin());
+            password.setText(server.getPassword());
+            command.setText(server.getCommand());
         }
     }
 
