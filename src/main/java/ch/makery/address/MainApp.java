@@ -65,15 +65,6 @@ public class MainApp extends Application {
 		serverDataList.add(serverData);
 		serverDataList.add(serverData1);
 
-
-		personData.add(new Person("Ruth", "Mueller"));
-		personData.add(new Person("Heinz", "Kurz"));
-		personData.add(new Person("Cornelia", "Meier"));
-		personData.add(new Person("Werner", "Meyer"));
-		personData.add(new Person("Lydia", "Kunz"));
-		personData.add(new Person("Anna", "Best"));
-		personData.add(new Person("Stefan", "Meier"));
-		personData.add(new Person("Martin", "Mueller"));
 	}
 
 	@Override
@@ -116,9 +107,9 @@ public class MainApp extends Application {
 		}
 
 		// Try to load last opened person file.
-		File file = getPersonFilePath();
+		File file = getServersFilePath();
 		if (file != null) {
-			loadPersonDataFromFile(file);
+			loadServersDataFromFile(file);
 		}
 	}
 
@@ -232,14 +223,7 @@ public class MainApp extends Application {
 //		}
 //	}
 
-	/**
-	 * Returns the person file preference, i.e. the file that was last opened.
-	 * The preference is read from the OS specific registry. If no such
-	 * preference can be found, null is returned.
-	 * 
-	 * @return
-	 */
-	public File getPersonFilePath() {
+	public File getServersFilePath() {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		String filePath = prefs.get("filePath", null);
 		if (filePath != null) {
@@ -249,13 +233,8 @@ public class MainApp extends Application {
 		}
 	}
 
-	/**
-	 * Sets the file path of the currently loaded file. The path is persisted in
-	 * the OS specific registry.
-	 * 
-	 * @param file the file or null to remove the path
-	 */
-	public void setPersonFilePath(File file) {
+
+	public void setServersFilePath(File file) {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		if (file != null) {
 			prefs.put("filePath", file.getPath());
@@ -270,72 +249,54 @@ public class MainApp extends Application {
 		}
 	}
 
-	/**
-	 * Loads person data from the specified file. The current person data will
-	 * be replaced.
-	 * 
-	 * @param file
-	 */
-	public void loadPersonDataFromFile(File file) {
+
+	public void loadServersDataFromFile(File file) {
 		try {
 			JAXBContext context = JAXBContext
-					.newInstance(PersonListWrapper.class);
+					.newInstance(ServerListWrapper.class);
 			Unmarshaller um = context.createUnmarshaller();
 
 			// Reading XML from the file and unmarshalling.
-			PersonListWrapper wrapper = (PersonListWrapper) um.unmarshal(file);
+			ServerListWrapper wrapper = (ServerListWrapper) um.unmarshal(file);
 
-			personData.clear();
-			personData.addAll(wrapper.getPersons());
+			serverDataList.clear();
+			serverDataList.addAll(wrapper.getServers());
 
 			// Save the file path to the registry.
-			setPersonFilePath(file);
+			setServersFilePath(file);
 
 		} catch (Exception e) { // catches ANY exception
 
 		}
 	}
 
-	/**
-	 * Saves the current person data to the specified file.
-	 * 
-	 * @param file
-	 */
-	public void savePersonDataToFile(File file) {
+
+	public void saveServersDataToFile(File file) {
 		try {
 			JAXBContext context = JAXBContext
-					.newInstance(PersonListWrapper.class);
+					.newInstance(ServerListWrapper.class);
 			Marshaller m = context.createMarshaller();
 			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 			// Wrapping our person data.
-			PersonListWrapper wrapper = new PersonListWrapper();
-			wrapper.setPersons(personData);
+			ServerListWrapper wrapper = new ServerListWrapper();
+			wrapper.setServers(serverDataList);
 
 			// Marshalling and saving XML to the file.
 			m.marshal(wrapper, file);
 			
 			// Save the file path to the registry.
-			setPersonFilePath(file);
+			setServersFilePath(file);
 		} catch (Exception e) { // catches ANY exception
 
 		}
 	}
 
-	/**
-	 * Returns the main stage.
-	 * 
-	 * @return
-	 */
+
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
 
-	/**
-	 * Returns the data as an observable list of Persons.
-	 * 
-	 * @return
-	 */
 	public ObservableList<Person> getPersonData() {
 		return personData;
 	}

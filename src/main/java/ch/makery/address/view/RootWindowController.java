@@ -2,9 +2,11 @@ package ch.makery.address.view;
 
 import ch.makery.address.MainApp;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * The controller for the root layout. The root layout provides the basic
@@ -27,92 +29,61 @@ public class RootWindowController {
         this.mainApp = mainApp;
     }
 
-    /**
-     * Creates an empty address book.
-     */
+
     @FXML
     private void handleNew() {
-        mainApp.getPersonData().clear();
-        mainApp.setPersonFilePath(null);
+        this.mainApp.getServerDataList().clear();
+        this.mainApp.setServersFilePath((File)null);
     }
 
-    /**
-     * Opens a FileChooser to let the user select an address book to load.
-     */
     @FXML
-    private void handleOpen() {
+    private void handleOpen() throws IOException {
         FileChooser fileChooser = new FileChooser();
-
-        // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-                "XML files (*.xml)", "*.xml");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", new String[]{"*.xml"});
         fileChooser.getExtensionFilters().add(extFilter);
-
-        // Show save file dialog
-        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-
+        File file = fileChooser.showOpenDialog(this.mainApp.getPrimaryStage());
         if (file != null) {
-            mainApp.loadPersonDataFromFile(file);
+            this.mainApp.loadServersDataFromFile(file);
         }
+
     }
 
-    /**
-     * Saves the file to the person file that is currently open. If there is no
-     * open file, the "save as" dialog is shown.
-     */
     @FXML
-    private void handleSave() {
-        File personFile = mainApp.getPersonFilePath();
-        if (personFile != null) {
-            mainApp.savePersonDataToFile(personFile);
+    private void handleSave() throws IOException {
+        File serverFile = this.mainApp.getServersFilePath();
+        if (serverFile != null) {
+            this.mainApp.saveServersDataToFile(serverFile);
         } else {
-            handleSaveAs();
+            this.handleSaveAs();
         }
+
     }
 
-    /**
-     * Opens a FileChooser to let the user select a file to save to.
-     */
     @FXML
-    private void handleSaveAs() {
-		FileChooser fileChooser = new FileChooser();
+    private void handleSaveAs() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)", new String[]{"*.xml"});
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(this.mainApp.getPrimaryStage());
+        if (file != null) {
+            if (!file.getPath().endsWith(".xml")) {
+                file = new File(file.getPath() + ".xml");
+            }
 
-		// Set extension filter
-		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-				"XML files (*.xml)", "*.xml");
-		fileChooser.getExtensionFilters().add(extFilter);
+            this.mainApp.saveServersDataToFile(file);
+        }
 
-		// Show save file dialog
-		File file = fileChooser.showSaveDialog(mainApp.getPrimaryStage());
+    }
 
-		if (file != null) {
-			// Make sure it has the correct extension
-			if (!file.getPath().endsWith(".xml")) {
-				file = new File(file.getPath() + ".xml");
-			}
-			mainApp.savePersonDataToFile(file);
-		}
-	}
-    
-    /**
-     * Opens the birthday statistics.
-     */
-//    @FXML
-//    private void handleShowBirthdayStatistics() {
-//      mainApp.showBirthdayStatistics();
-//    }
-
-    /**
-     * Opens an about dialog.
-     */
     @FXML
     private void handleAbout() {
-
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Копирование с FTP");
+        alert.setHeaderText("О программе");
+        alert.setContentText("Автор: Andrey");
+        alert.showAndWait();
     }
 
-    /**
-     * Closes the application.
-     */
     @FXML
     private void handleExit() {
         System.exit(0);
