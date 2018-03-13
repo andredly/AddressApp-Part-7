@@ -48,17 +48,20 @@ public class MainApp extends Application {
 		ServerData serverData = new ServerData();
 		serverData.setProjectPath("");
 		serverData.setServerName("name");
-		serverData.setHost("host");
+		serverData.setPortAuthor(4502);
+		serverData.setPortPublish(4503);
 		serverData.setBundleName("");
+		serverData.setTypeEnvironment(TypeEnvironment.AUTHOR);
 		serverData.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
 //		serverData.setTypeEnvironment(TypeEnvironment.PUBLISH);
 		ServerData serverData1 = new ServerData();
 		serverData1.setProjectPath("");
 		serverData1.setServerName("name1");
-		serverData1.setHost("host1");
+		serverData1.setPortAuthor(4502);
+		serverData1.setPortPublish(4503);
+		serverData1.setTypeEnvironment(TypeEnvironment.PUBLISH);
 		serverData1.setBundleName("");
 		serverData1.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
-		serverData1.setTypeEnvironment(TypeEnvironment.AUTHOR);
 		serverDataList.add(serverData);
 		serverDataList.add(serverData1);
 

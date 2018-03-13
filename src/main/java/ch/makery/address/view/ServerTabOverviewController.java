@@ -28,13 +28,13 @@ public class ServerTabOverviewController {
     private TextField serverPath;
 
     @FXML
-    private TextField host;
+    private TextField portAuthor;
 
     @FXML
     private Button path;
 
     @FXML
-    private TextField port;
+    private TextField portPublish;
 
     @FXML
     private ComboBox<TypeEnvironment> typeEnvironment;
@@ -117,8 +117,12 @@ public class ServerTabOverviewController {
             listServer.getSelectionModel().getSelectedItem().setProjectPath(newValue);
             showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
-        port.textProperty().addListener((observable, oldValue, newValue) -> {
-            listServer.getSelectionModel().getSelectedItem().setPort(Integer.valueOf(newValue));
+        portAuthor.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setPortAuthor(Integer.valueOf(newValue));
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
+        portPublish.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setPortPublish(Integer.valueOf(newValue));
             showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
         serverName.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -165,8 +169,8 @@ public class ServerTabOverviewController {
         ServerData server = new ServerData();
         server.setProjectPath("");
         server.setServerName("default");
-        server.setHost("");
-        server.setPort(0);
+        server.setPortAuthor(4502);
+        server.setPortPublish(4503);
         server.setBundleName("");
         server.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
         server.setInstallLocal(true);
@@ -211,9 +215,8 @@ public class ServerTabOverviewController {
         if (server != null) {
             serverName.setText(server.getServerName());
             serverPath.setText(server.getProjectPath());
-            host.setText(server.getHost());
-            port.setText(Integer.toString(server.getPort()));
-            host.setText(server.getHost());
+            portAuthor.setText(Integer.toString(server.getPortAuthor()));
+            portPublish.setText(Integer.toString(server.getPortPublish()));
             Toggle elem = typeDeploy.getToggles()
                     .stream()
                     .filter(el -> server.getTypeDeployRadioButton() != null && el.getUserData().toString().equals(server.getTypeDeployRadioButton().name()))
@@ -247,7 +250,7 @@ public class ServerTabOverviewController {
 
     private String createCommand(ServerData server) {
         server.setCommand("");
-        String com = "mvn clean install -T 6 ";
+        String com = "mvn clean install -T 6 -P";
         String skipTests = "-Dmaven.test.skip=";
         String port = "-Dsling.port=";
         String installPackage = "installPackage";
@@ -258,20 +261,27 @@ public class ServerTabOverviewController {
 
         switch (server.getTypeDeployRadioButton()) {
             case FULL: {
-                command.append("-P");
+                if (server.isInstallLocal()&&server.isInstallPackage()) {
+                    command.append(installPackage).append(",").append(installLocal).append(" ");
+                    break;
+                }
                 if (server.isInstallLocal()) {
                     command.append(installLocal).append(" ");
+                    break;
                 }
                 if (server.isInstallPackage()) {
                     command.append(installPackage).append(" ");
+                    break;
                 }
+
                 break;
             }
             case CONTENT: {
-                command.append("-P").append(installPackage).append(" ");
+                command.append(installPackage).append(" ");
                 break;
             }
             case BUNDLES: {
+                command.append(installBundle).append(" ");
 //                command.append(server.getProjectPath())
 //                        .append("/")
 //                        .append(server.getBundleName())
@@ -284,7 +294,11 @@ public class ServerTabOverviewController {
         if (server.isSkipTest()) {
             command.append(skipTests).append(true).append(" ");
         }
-        command.append(port).append(server.getPort()).append(" ");
+        if(server.getTypeEnvironment().equals(TypeEnvironment.AUTHOR)) {
+            command.append(port).append(server.getPortAuthor()).append(" ");
+        }else {
+            command.append(port).append(server.getPortPublish()).append(" ");
+        }
         return command.toString();
     }
 

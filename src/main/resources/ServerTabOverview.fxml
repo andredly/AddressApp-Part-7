@@ -30,10 +30,10 @@
                                 <Label layoutX="21.0" layoutY="62.0" prefHeight="17.0" prefWidth="222.0" text="Select project path" />
                                 <TextField fx:id="serverPath" layoutX="21.0" layoutY="87.0" prefHeight="25.0" prefWidth="478.0" />
                                 <Button fx:id="path" layoutX="521.0" layoutY="87.0" mnemonicParsing="false" onAction="#handleOpen" prefHeight="25.0" prefWidth="119.0" text="Path" />
-                                <Label layoutX="21.0" layoutY="130.0" prefHeight="17.0" prefWidth="39.0" text="Host:" />
-                                <TextField fx:id="host" layoutX="70.0" layoutY="126.0" prefHeight="25.0" prefWidth="272.0" />
-                                <Label layoutX="354.0" layoutY="130.0" prefHeight="17.0" prefWidth="39.0" text="Port:" />
-                                <TextField fx:id="port" layoutX="417.0" layoutY="126.0" prefHeight="25.0" prefWidth="119.0" />
+                                <Label layoutX="21.0" layoutY="130.0" prefHeight="17.0" prefWidth="79.0" text="Port author:" />
+                                <TextField fx:id="portAuthor" layoutX="103.0" layoutY="126.0" prefHeight="25.0" prefWidth="126.0" />
+                                <Label layoutX="265.0" layoutY="130.0" prefHeight="17.0" prefWidth="94.0" text="Port publish:" />
+                                <TextField fx:id="portPublish" layoutX="358.0" layoutY="126.0" prefHeight="25.0" prefWidth="119.0" />
                                 <ComboBox fx:id="typeEnvironment" layoutX="150.0" layoutY="192.0" onAction="#changeTypeEnvironment" prefWidth="150.0" />
                                 <Label layoutX="21.0" layoutY="196.0" prefHeight="17.0" prefWidth="119.0" text="Type environments:" />
                                 <RadioButton fx:id="full" layoutX="21.0" layoutY="263.0" mnemonicParsing="false" onAction="#changeGroupRadioButton" selected="true" text="Full">

@@ -9,8 +9,8 @@ public class ServerData {
 
     private StringProperty serverName;
     private StringProperty projectPath;
-    private StringProperty host;
-    private IntegerProperty port;
+    private IntegerProperty portAuthor;
+    private IntegerProperty portPublish;
     private TypeEnvironment typeEnvironment;
     private TypeDeployRadioButton typeDeployRadioButton;
     private BooleanProperty skipTest;
@@ -24,10 +24,9 @@ public class ServerData {
     public ServerData() {
         this.serverName = new SimpleStringProperty();
         this.projectPath = new SimpleStringProperty();
-        this.host = new SimpleStringProperty();
-        this.port = new SimpleIntegerProperty();
+        this.portAuthor = new SimpleIntegerProperty();
+        this.portPublish = new SimpleIntegerProperty();
         this.skipTest = new SimpleBooleanProperty();
-        this.host = new SimpleStringProperty();
         this.installPackage = new SimpleBooleanProperty();
         this.installLocal = new SimpleBooleanProperty();
         this.login = new SimpleStringProperty();
@@ -128,29 +127,6 @@ public class ServerData {
         this.projectPath.set(projectPath);
     }
 
-    public String getHost() {
-        return host.get();
-    }
-
-    public StringProperty hostProperty() {
-        return host;
-    }
-
-    public void setHost(String host) {
-        this.host.set(host);
-    }
-
-    public int getPort() {
-        return port.get();
-    }
-
-    public IntegerProperty portProperty() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port.set(port);
-    }
 
     public TypeEnvironment getTypeEnvironment() {
         return typeEnvironment;
@@ -162,6 +138,30 @@ public class ServerData {
 
     public boolean isSkipTest() {
         return skipTest.get();
+    }
+
+    public int getPortAuthor() {
+        return portAuthor.get();
+    }
+
+    public IntegerProperty portAuthorProperty() {
+        return portAuthor;
+    }
+
+    public void setPortAuthor(int portAuthor) {
+        this.portAuthor.set(portAuthor);
+    }
+
+    public int getPortPublish() {
+        return portPublish.get();
+    }
+
+    public IntegerProperty portPublishProperty() {
+        return portPublish;
+    }
+
+    public void setPortPublish(int portPublish) {
+        this.portPublish.set(portPublish);
     }
 
     public BooleanProperty skipTestProperty() {
@@ -180,8 +180,4 @@ public class ServerData {
         this.bundleName = bundleName;
     }
 
-    @Override
-    public String toString() {
-        return host.get() + ":" + port.get();
-    }
 }
