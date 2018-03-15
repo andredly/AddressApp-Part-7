@@ -20,7 +20,7 @@
                     <children>
                         <ListView fx:id="listServer" layoutY="33.0" prefHeight="542.0" prefWidth="222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
                         <Button fx:id="addServer" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleAddServer" text="Add server" />
-                        <Button fx:id="removeServer" layoutX="103.0" layoutY="14.0" mnemonicParsing="false" text="Remove server" />
+                        <Button fx:id="removeServer" layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleRemoveServer" text="Remove server" />
                     </children>
                 </AnchorPane>
                 <AnchorPane>
@@ -47,7 +47,6 @@
                                 <RadioButton fx:id="skipTest" layoutX="24.0" layoutY="362.0" mnemonicParsing="false" text="Skip tests" />
                                 <Label layoutX="21.0" layoutY="232.0" prefHeight="17.0" prefWidth="119.0" text="Type deploy:" />
                                 <Button fx:id="deploy" layoutX="25.0" layoutY="439.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Deploy" />
-                                <Button fx:id="saveChange" layoutX="24.0" layoutY="502.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="119.0" text="Save change" />
                                 <CheckBox fx:id="installPackage" layoutX="110.0" layoutY="263.0" mnemonicParsing="false" text="InstallPackage" />
                                 <CheckBox fx:id="installLocal" layoutX="225.0" layoutY="263.0" mnemonicParsing="false" text="InstallLocal" />
                                 <TextField fx:id="serverName" layoutX="125.0" layoutY="26.0" prefHeight="25.0" prefWidth="375.0" />

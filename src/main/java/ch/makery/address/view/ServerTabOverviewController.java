@@ -183,6 +183,11 @@ public class ServerTabOverviewController {
     }
 
     @FXML
+    private void handleRemoveServer(){
+        mainApp.getServerDataList().remove(listServer.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
     private void handleOpen() {
 //        FileChooser fileChooser = new FileChooser();
 //        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
@@ -282,12 +287,6 @@ public class ServerTabOverviewController {
             }
             case BUNDLES: {
                 command.append(installBundle).append(" ");
-//                command.append(server.getProjectPath())
-//                        .append("/")
-//                        .append(server.getBundleName())
-//                        .append(" ")
-//                        .append(installBundle)
-//                        .append(" ");
                 break;
             }
         }
@@ -321,4 +320,5 @@ public class ServerTabOverviewController {
         listServer.getSelectionModel().getSelectedItem().setBundleName(selectedItem);
         showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
+
 }

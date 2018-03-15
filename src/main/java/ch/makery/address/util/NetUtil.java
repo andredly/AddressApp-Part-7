@@ -48,7 +48,7 @@ public class NetUtil {
 //        CloseableHttpClient client = HttpClients.createDefault();
 //        HttpPost httpPost = new HttpPost("http://www.example.com");
 //
-//        String json = "{\"id\":1,\"name\":\"John\"}";
+//        String json = "{\"id\":ff,\"name\":\"John\"}";
 //        StringEntity entity = new StringEntity(json);
 //        httpPost.setEntity(entity);
 //        httpPost.setHeader("Accept", "application/json");

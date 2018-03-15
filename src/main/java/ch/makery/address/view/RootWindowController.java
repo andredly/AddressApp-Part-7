@@ -56,7 +56,6 @@ public class RootWindowController {
         } else {
             this.handleSaveAs();
         }
-
     }
 
     @FXML
