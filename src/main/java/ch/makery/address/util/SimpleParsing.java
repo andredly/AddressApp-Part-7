@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SimpleParsing {
 
-    private static final String POM = "poms.xml";
+    private static final String POM = "pom.xml";
     private static final String BUNDLES = "bundles";
     private static final String MODULES = "modules";
 

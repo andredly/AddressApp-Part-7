@@ -1,6 +1,7 @@
 package ch.makery.address.view;
 
 import ch.makery.address.MainApp;
+import ch.makery.address.ff.ExecuteShellComand;
 import ch.makery.address.model.ServerData;
 import ch.makery.address.model.TypeDeployRadioButton;
 import ch.makery.address.model.TypeEnvironment;
@@ -262,8 +263,8 @@ public class ServerTabOverviewController {
         String installLocal = "installLocal";
         String otherCommand = "";
         String installBundle = "installBundle";
-        StringBuffer command = new StringBuffer(com);
-
+        StringBuffer command = new StringBuffer(server.getProjectPath());
+        command.append("\\").append(com);
         switch (server.getTypeDeployRadioButton()) {
             case FULL: {
                 if (server.isInstallLocal()&&server.isInstallPackage()) {
@@ -298,6 +299,7 @@ public class ServerTabOverviewController {
         }else {
             command.append(port).append(server.getPortPublish()).append(" ");
         }
+        listServer.getSelectionModel().getSelectedItem().setCommand(command.toString());
         return command.toString();
     }
 
@@ -319,6 +321,11 @@ public class ServerTabOverviewController {
         String selectedItem = bundleNames.getSelectionModel().getSelectedItem();
         listServer.getSelectionModel().getSelectedItem().setBundleName(selectedItem);
         showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void handleDeploy() {
+        new ExecuteShellComand().executeCommand(listServer.getSelectionModel().getSelectedItem().getCommand());
     }
 
 }
