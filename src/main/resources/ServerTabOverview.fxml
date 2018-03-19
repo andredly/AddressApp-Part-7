@@ -46,19 +46,19 @@
                                 <ComboBox fx:id="bundleNames" layoutX="110.0" layoutY="313.0" onAction="#changeBundles" prefHeight="25.0" prefWidth="394.0" />
                                 <RadioButton fx:id="skipTest" layoutX="24.0" layoutY="362.0" mnemonicParsing="false" text="Skip tests" />
                                 <Label layoutX="21.0" layoutY="232.0" prefHeight="17.0" prefWidth="119.0" text="Type deploy:" />
-                                <Button fx:id="deploy" layoutX="25.0" layoutY="476.0" mnemonicParsing="false" onAction="#handleDeploy" prefHeight="25.0" prefWidth="141.0" text="Deploy" />
+                                <Button fx:id="deploy" layoutX="25.0" layoutY="497.0" mnemonicParsing="false" onAction="#handleDeploy" prefHeight="25.0" prefWidth="141.0" text="Deploy" />
                                 <CheckBox fx:id="installPackage" layoutX="110.0" layoutY="263.0" mnemonicParsing="false" text="InstallPackage" />
                                 <CheckBox fx:id="installLocal" layoutX="225.0" layoutY="263.0" mnemonicParsing="false" text="InstallLocal" />
                                 <TextField fx:id="serverName" layoutX="125.0" layoutY="26.0" prefHeight="25.0" prefWidth="375.0" />
                                 <Label layoutX="21.0" layoutY="30.0" prefHeight="17.0" prefWidth="94.0" text="Server name" />
-                        <Label layoutX="21.0" layoutY="162.0" prefHeight="17.0" prefWidth="39.0" text="Login" />
-                        <TextField fx:id="login" layoutX="70.0" layoutY="158.0" prefHeight="25.0" prefWidth="272.0" />
-                        <Label layoutX="354.0" layoutY="162.0" prefHeight="17.0" prefWidth="63.0" text="Password" />
-                        <TextField fx:id="password" layoutX="417.0" layoutY="158.0" prefHeight="25.0" prefWidth="119.0" />
-                        <Label layoutX="24.0" layoutY="441.0" prefHeight="17.0" prefWidth="71.0" text="Command:" />
-                        <Label fx:id="command" layoutX="90.0" layoutY="433.0" prefHeight="33.0" prefWidth="538.0" />
-                        <Label layoutX="21.0" layoutY="407.0" prefHeight="17.0" prefWidth="103.0" text="Other commands:" />
-                        <TextField fx:id="otherCommands" layoutX="129.0" layoutY="403.0" prefHeight="25.0" prefWidth="388.0" />
+                                <Label layoutX="21.0" layoutY="162.0" prefHeight="17.0" prefWidth="39.0" text="Login" />
+                                <TextField fx:id="login" layoutX="70.0" layoutY="158.0" prefHeight="25.0" prefWidth="272.0" />
+                                <Label layoutX="354.0" layoutY="162.0" prefHeight="17.0" prefWidth="63.0" text="Password" />
+                                <TextField fx:id="password" layoutX="417.0" layoutY="158.0" prefHeight="25.0" prefWidth="119.0" />
+                                <Label layoutX="24.0" layoutY="441.0" prefHeight="17.0" prefWidth="71.0" text="Command:" />
+                                <Label fx:id="command" layoutX="90.0" layoutY="433.0" maxWidth="537.0" prefHeight="52.0" prefWidth="538.0" wrapText="true" />
+                                <Label layoutX="21.0" layoutY="407.0" prefHeight="17.0" prefWidth="103.0" text="Other commands:" />
+                                <TextField fx:id="otherCommands" layoutX="129.0" layoutY="403.0" prefHeight="25.0" prefWidth="388.0" />
                             </children>
                         </Pane>
                     </children>

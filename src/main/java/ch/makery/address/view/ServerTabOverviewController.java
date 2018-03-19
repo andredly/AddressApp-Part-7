@@ -161,7 +161,7 @@ public class ServerTabOverviewController {
         full.setUserData(TypeDeployRadioButton.FULL);
         content.setUserData(TypeDeployRadioButton.CONTENT);
         bundles.setUserData(TypeDeployRadioButton.BUNDLES);
-        command.setMaxWidth(530);
+        command.setMaxWidth(400);
         command.setWrapText(true);
         typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
     }

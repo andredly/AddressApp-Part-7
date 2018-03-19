@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ExecuteShellComand {
 
@@ -18,28 +20,25 @@ public class ExecuteShellComand {
     }
 
     public void executeCommand(String command, String serverPath) {
+
+        ExecutorService service = Executors.newFixedThreadPool(2);
+        ProcessTask processTask = new ProcessTask(serverPath, command);
+        service.submit(processTask);
         String cmd = "cmd.exe "+ "/c "+ "start "+"cmd.exe "+ "/k "+ "\"cd "+ serverPath +"&& "+command+"\"";
         System.out.println(cmd);
-        ProcessBuilder builder = new ProcessBuilder(
-                "cmd.exe", "/c", "start","cmd.exe","/k", "\"cd "+ serverPath + "&& "+command+"\"");
-        builder.redirectErrorStream(true);
-        Process p = null;
-        try {
-            p = builder.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
-        String line = null;
-        while (true) {
-            try {
-                line = r.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (line == null) { break; }
-            System.out.println(line);
-        }
+
+
+//        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//        String line = null;
+//        while (true) {
+//            try {
+//                line = r.readLine();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            if (line == null) { break; }
+//            System.out.println(line);
+//        }
     }
 
     public String executeCommand(String command) {
