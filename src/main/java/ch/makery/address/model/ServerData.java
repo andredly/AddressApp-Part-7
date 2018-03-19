@@ -20,6 +20,7 @@ public class ServerData {
     private StringProperty login;
     private StringProperty password;
     private StringProperty command;
+    private StringProperty otherCommands;
 
     public ServerData() {
         this.serverName = new SimpleStringProperty();
@@ -32,6 +33,19 @@ public class ServerData {
         this.login = new SimpleStringProperty();
         this.password = new SimpleStringProperty();
         this.command = new SimpleStringProperty();
+        this.otherCommands = new SimpleStringProperty();
+    }
+
+    public String getOtherCommands() {
+        return otherCommands.get();
+    }
+
+    public StringProperty otherCommandsProperty() {
+        return otherCommands;
+    }
+
+    public void setOtherCommands(String otherCommands) {
+        this.otherCommands.set(otherCommands);
     }
 
     public String getLogin() {

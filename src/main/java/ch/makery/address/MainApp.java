@@ -51,12 +51,14 @@ public class MainApp extends Application {
 		serverData.setPortAuthor(4502);
 		serverData.setPortPublish(4503);
 		serverData.setBundleName("");
+		serverData.setOtherCommands("");
 		serverData.setTypeEnvironment(TypeEnvironment.AUTHOR);
 		serverData.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
 //		serverData.setTypeEnvironment(TypeEnvironment.PUBLISH);
 		ServerData serverData1 = new ServerData();
 		serverData1.setProjectPath("");
 		serverData1.setServerName("name1");
+		serverData1.setOtherCommands("");
 		serverData1.setPortAuthor(4502);
 		serverData1.setPortPublish(4503);
 		serverData1.setTypeEnvironment(TypeEnvironment.PUBLISH);

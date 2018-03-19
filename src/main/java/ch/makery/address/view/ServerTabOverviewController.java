@@ -83,6 +83,9 @@ public class ServerTabOverviewController {
     private Label command;
 
     @FXML
+    private TextField otherCommands;
+
+    @FXML
     private ToggleGroup typeDeploy;
 
     private ServerData serverData;
@@ -126,6 +129,10 @@ public class ServerTabOverviewController {
             listServer.getSelectionModel().getSelectedItem().setPortPublish(Integer.valueOf(newValue));
             showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
+        otherCommands.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setOtherCommands(newValue);
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
         serverName.textProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setServerName(newValue);
             listServer.setCellFactory(cell -> new ListCell<ServerData>() {
@@ -154,6 +161,9 @@ public class ServerTabOverviewController {
         full.setUserData(TypeDeployRadioButton.FULL);
         content.setUserData(TypeDeployRadioButton.CONTENT);
         bundles.setUserData(TypeDeployRadioButton.BUNDLES);
+        command.setMaxWidth(530);
+        command.setWrapText(true);
+        typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
     }
 
     public void setMainApp(MainApp mainApp) {
@@ -173,6 +183,7 @@ public class ServerTabOverviewController {
         server.setPortAuthor(4502);
         server.setPortPublish(4503);
         server.setBundleName("");
+        server.setOtherCommands("--offline");
         server.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
         server.setInstallLocal(true);
         server.setInstallPackage(true);
@@ -230,7 +241,6 @@ public class ServerTabOverviewController {
                     .orElse(null);
             typeDeploy.selectToggle(elem);
             typeEnvironment.setValue(server.getTypeEnvironment());
-            typeEnvironment.setItems(FXCollections.observableArrayList(TypeEnvironment.values()));
             bundleNames.setValue(server.getBundleName());
             bundleNames.setItems(FXCollections.observableArrayList(SimpleParsing.getListBundles(server.getProjectPath())));
             skipTest.setSelected(server.isSkipTest());
@@ -250,6 +260,7 @@ public class ServerTabOverviewController {
             }
             login.setText(server.getLogin());
             password.setText(server.getPassword());
+            otherCommands.setText(server.getOtherCommands());
             command.setText(createCommand(server));
         }
     }
@@ -259,31 +270,30 @@ public class ServerTabOverviewController {
         String com = "mvn clean install -T 6 -P";
         String skipTests = "-Dmaven.test.skip=";
         String port = "-Dsling.port=";
-        String installPackage = "installPackage";
-        String installLocal = "installLocal";
+        String installPackageCom = "installPackage";
+        String installLocalCom = "installLocal";
         String otherCommand = "";
         String installBundle = "installBundle";
-        StringBuffer command = new StringBuffer(server.getProjectPath());
-        command.append("\\").append(com);
+        StringBuffer command = new StringBuffer(com);
         switch (server.getTypeDeployRadioButton()) {
             case FULL: {
                 if (server.isInstallLocal()&&server.isInstallPackage()) {
-                    command.append(installPackage).append(",").append(installLocal).append(" ");
+                    command.append(installPackageCom).append(",").append(installLocalCom).append(" ");
                     break;
                 }
                 if (server.isInstallLocal()) {
-                    command.append(installLocal).append(" ");
+                    command.append(installLocalCom).append(" ");
                     break;
                 }
                 if (server.isInstallPackage()) {
-                    command.append(installPackage).append(" ");
+                    command.append(installPackageCom).append(" ");
                     break;
                 }
 
                 break;
             }
             case CONTENT: {
-                command.append(installPackage).append(" ");
+                command.append(installPackageCom).append(" ");
                 break;
             }
             case BUNDLES: {
@@ -299,6 +309,10 @@ public class ServerTabOverviewController {
         }else {
             command.append(port).append(server.getPortPublish()).append(" ");
         }
+        if (server.getOtherCommands()!=null){
+            otherCommand = server.getOtherCommands();
+        }
+        command.append(otherCommand).append(" ");
         listServer.getSelectionModel().getSelectedItem().setCommand(command.toString());
         return command.toString();
     }
@@ -307,6 +321,7 @@ public class ServerTabOverviewController {
     private void changeTypeEnvironment() {
         TypeEnvironment value = typeEnvironment.getValue();
         listServer.getSelectionModel().getSelectedItem().setTypeEnvironment(value);
+        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -325,7 +340,16 @@ public class ServerTabOverviewController {
 
     @FXML
     private void handleDeploy() {
-        new ExecuteShellComand().executeCommand(listServer.getSelectionModel().getSelectedItem().getCommand());
+        ServerData selectedItem = listServer.getSelectionModel().getSelectedItem();
+        String commandCom = selectedItem.getCommand();
+        String projectPath = selectedItem.getProjectPath();
+        if (typeDeploy.getSelectedToggle().getUserData().toString().equals(TypeDeployRadioButton.BUNDLES.name())){
+            projectPath = projectPath+"\\bundles\\"+selectedItem.getBundleName();
+        }
+        if (typeDeploy.getSelectedToggle().getUserData().toString().equals(TypeDeployRadioButton.CONTENT.name())){
+            projectPath = projectPath+"\\content\\";
+        }
+        new ExecuteShellComand().executeCommand(commandCom, projectPath);
     }
 
 }

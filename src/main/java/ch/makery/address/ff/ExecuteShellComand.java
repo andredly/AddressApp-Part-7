@@ -17,6 +17,31 @@ public class ExecuteShellComand {
 
     }
 
+    public void executeCommand(String command, String serverPath) {
+        String cmd = "cmd.exe "+ "/c "+ "start "+"cmd.exe "+ "/k "+ "\"cd "+ serverPath +"&& "+command+"\"";
+        System.out.println(cmd);
+        ProcessBuilder builder = new ProcessBuilder(
+                "cmd.exe", "/c", "start","cmd.exe","/k", "\"cd "+ serverPath + "&& "+command+"\"");
+        builder.redirectErrorStream(true);
+        Process p = null;
+        try {
+            p = builder.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+        String line = null;
+        while (true) {
+            try {
+                line = r.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (line == null) { break; }
+            System.out.println(line);
+        }
+    }
+
     public String executeCommand(String command) {
         System.getProperties();
         ProcessBuilder builder = new ProcessBuilder(
