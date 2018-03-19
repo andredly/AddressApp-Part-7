@@ -1,21 +1,24 @@
-package ch.makery.address.ff;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
+package ch.makery.address.view;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 public class MainController {
 
     @FXML
     private TextArea console;
     private PrintStream ps ;
+    private Stage consoleStage;
 
     public void initialize() {
+
         ps = new PrintStream(new Console(console)) ;
     }
 
@@ -24,6 +27,7 @@ public class MainController {
         System.setErr(ps);
         System.out.println("Hello World");
     }
+
 
     public class Console extends OutputStream {
         private TextArea console;

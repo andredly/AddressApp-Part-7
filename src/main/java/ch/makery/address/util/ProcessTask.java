@@ -1,6 +1,8 @@
-package ch.makery.address.ff;
+package ch.makery.address.util;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.concurrent.Callable;
 
 public class ProcessTask implements Callable<Void> {
@@ -15,12 +17,20 @@ public class ProcessTask implements Callable<Void> {
 
     @Override
     public Void call()  {
+
         ProcessBuilder builder = new ProcessBuilder(
                 "cmd.exe", "/c", "start","cmd.exe","/k", "\"cd "+ serverPath + "&& "+command+"\"");
         builder.redirectErrorStream(true);
         try {
-            builder.start();
+            Process start = builder.start();
+            InputStream inputStream = start.getInputStream();
+            OutputStream outputStream = start.getOutputStream();
+
+            start.waitFor();
+
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 

@@ -30,13 +30,8 @@ public class SimpleParsing {
             String filePath = path + "/" + POM;
             File fXmlFile = new File(filePath);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = null;
-
-            dBuilder = dbFactory.newDocumentBuilder();
-
-
+            DocumentBuilder dBuilder  = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(fXmlFile);
-
             doc.getDocumentElement().normalize();
             List<String> list = getListElements(doc);
             if (list.contains(BUNDLES)) {

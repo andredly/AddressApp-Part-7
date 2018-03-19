@@ -1,21 +1,18 @@
 package ch.makery.address.view;
 
 import ch.makery.address.MainApp;
-import ch.makery.address.ff.ExecuteShellComand;
 import ch.makery.address.model.ServerData;
 import ch.makery.address.model.TypeDeployRadioButton;
 import ch.makery.address.model.TypeEnvironment;
+import ch.makery.address.util.ExecuteShellComand;
 import ch.makery.address.util.SimpleParsing;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.IOException;
 
 public class ServerTabOverviewController {
 
@@ -195,7 +192,7 @@ public class ServerTabOverviewController {
     }
 
     @FXML
-    private void handleRemoveServer(){
+    private void handleRemoveServer() {
         mainApp.getServerDataList().remove(listServer.getSelectionModel().getSelectedItem());
     }
 
@@ -277,7 +274,7 @@ public class ServerTabOverviewController {
         StringBuffer command = new StringBuffer(com);
         switch (server.getTypeDeployRadioButton()) {
             case FULL: {
-                if (server.isInstallLocal()&&server.isInstallPackage()) {
+                if (server.isInstallLocal() && server.isInstallPackage()) {
                     command.append(installPackageCom).append(",").append(installLocalCom).append(" ");
                     break;
                 }
@@ -304,12 +301,12 @@ public class ServerTabOverviewController {
         if (server.isSkipTest()) {
             command.append(skipTests).append(true).append(" ");
         }
-        if(server.getTypeEnvironment().equals(TypeEnvironment.AUTHOR)) {
+        if (server.getTypeEnvironment().equals(TypeEnvironment.AUTHOR)) {
             command.append(port).append(server.getPortAuthor()).append(" ");
-        }else {
+        } else {
             command.append(port).append(server.getPortPublish()).append(" ");
         }
-        if (server.getOtherCommands()!=null){
+        if (server.getOtherCommands() != null) {
             otherCommand = server.getOtherCommands();
         }
         command.append(otherCommand).append(" ");
@@ -343,11 +340,14 @@ public class ServerTabOverviewController {
         ServerData selectedItem = listServer.getSelectionModel().getSelectedItem();
         String commandCom = selectedItem.getCommand();
         String projectPath = selectedItem.getProjectPath();
-        if (typeDeploy.getSelectedToggle().getUserData().toString().equals(TypeDeployRadioButton.BUNDLES.name())){
-            projectPath = projectPath+"\\bundles\\"+selectedItem.getBundleName();
+        if (projectPath.endsWith("\\") || projectPath.endsWith("/")){
+            projectPath = projectPath.substring(0, projectPath.length() - 1);
         }
-        if (typeDeploy.getSelectedToggle().getUserData().toString().equals(TypeDeployRadioButton.CONTENT.name())){
-            projectPath = projectPath+"\\content\\";
+        if (typeDeploy.getSelectedToggle().getUserData().toString().equals(TypeDeployRadioButton.BUNDLES.name())) {
+            projectPath = projectPath + "\\bundles\\" + selectedItem.getBundleName();
+        }
+        if (typeDeploy.getSelectedToggle().getUserData().toString().equals(TypeDeployRadioButton.CONTENT.name())) {
+            projectPath = projectPath + "\\content\\";
         }
         new ExecuteShellComand().executeCommand(commandCom, projectPath);
     }
