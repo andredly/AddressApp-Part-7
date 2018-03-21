@@ -9,6 +9,7 @@ public class ServerData {
 
     private StringProperty serverName;
     private StringProperty projectPath;
+    private StringProperty packagePath;
     private IntegerProperty portAuthor;
     private IntegerProperty portPublish;
     private TypeEnvironment typeEnvironment;
@@ -25,6 +26,7 @@ public class ServerData {
     public ServerData() {
         this.serverName = new SimpleStringProperty();
         this.projectPath = new SimpleStringProperty();
+        this.packagePath = new SimpleStringProperty();
         this.portAuthor = new SimpleIntegerProperty();
         this.portPublish = new SimpleIntegerProperty();
         this.skipTest = new SimpleBooleanProperty();
@@ -34,6 +36,18 @@ public class ServerData {
         this.password = new SimpleStringProperty();
         this.command = new SimpleStringProperty();
         this.otherCommands = new SimpleStringProperty();
+    }
+
+    public String getPackagePath() {
+        return packagePath.get();
+    }
+
+    public StringProperty packagePathProperty() {
+        return packagePath;
+    }
+
+    public void setPackagePath(String packagePath) {
+        this.packagePath.set(packagePath);
     }
 
     public String getOtherCommands() {

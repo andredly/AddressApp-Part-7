@@ -5,11 +5,13 @@ import ch.makery.address.model.ServerData;
 import ch.makery.address.model.TypeDeployRadioButton;
 import ch.makery.address.model.TypeEnvironment;
 import ch.makery.address.util.ExecuteShellComand;
+import ch.makery.address.util.NetUtil;
 import ch.makery.address.util.SimpleParsing;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -85,6 +87,9 @@ public class ServerTabOverviewController {
     @FXML
     private ToggleGroup typeDeploy;
 
+    @FXML
+    private TextField packagePath;
+
     private ServerData serverData;
 
     private MainApp mainApp;
@@ -116,6 +121,10 @@ public class ServerTabOverviewController {
         });
         serverPath.textProperty().addListener((observable, oldValue, newValue) -> {
             listServer.getSelectionModel().getSelectedItem().setProjectPath(newValue);
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        });
+        packagePath.textProperty().addListener((observable, oldValue, newValue) -> {
+            listServer.getSelectionModel().getSelectedItem().setPackagePath(newValue);
             showSeverDetails(listServer.getSelectionModel().getSelectedItem());
         });
         portAuthor.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -181,6 +190,7 @@ public class ServerTabOverviewController {
         server.setPortPublish(4503);
         server.setBundleName("");
         server.setOtherCommands("--offline");
+        server.setPackagePath("");
         server.setTypeDeployRadioButton(TypeDeployRadioButton.FULL);
         server.setInstallLocal(true);
         server.setInstallPackage(true);
@@ -196,32 +206,29 @@ public class ServerTabOverviewController {
         mainApp.getServerDataList().remove(listServer.getSelectionModel().getSelectedItem());
     }
 
+
+    @FXML
+    private void handleOpenPackageFile() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+                "Zip files (*.zip)", "*.zip");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
+        if (file != null) {
+            listServer.getSelectionModel().getSelectedItem().setPackagePath(file.getPath());
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        }
+    }
+
     @FXML
     private void handleOpen() {
-//        FileChooser fileChooser = new FileChooser();
-//        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-//                "XML files (*.xml)", "*.xml");
-//        fileChooser.getExtensionFilters().add(extFilter);
-//        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-//        if (file != null) {
-////            mainApp.loadPersonDataFromFile(file);
-////            this.serverData.setProjectPath(file.getPath());
-//            listServer.getSelectionModel().getSelectedItem().setProjectPath(file.getPath());
-////            listServer.getSelectionModel().getSelectedItem().setBundleNames();
-//            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
-//        }
-
-
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("AEM Projects");
-        //todo message invalid firectory, set default directory, @NotNull
-//        File defaultDirectory = new File("");
-//        chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(new Stage());
-//        selectedDirectory = selectedDirectory == null ? defaultDirectory : selectedDirectory;
-        //todo message invalid firectory
-        listServer.getSelectionModel().getSelectedItem().setProjectPath(selectedDirectory.getPath());
-        showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        if (selectedDirectory != null) {
+            listServer.getSelectionModel().getSelectedItem().setProjectPath(selectedDirectory.getPath());
+            showSeverDetails(listServer.getSelectionModel().getSelectedItem());
+        }
     }
 
 
@@ -256,6 +263,7 @@ public class ServerTabOverviewController {
                 bundleNames.setDisable(true);
             }
             login.setText(server.getLogin());
+            packagePath.setText(server.getPackagePath());
             password.setText(server.getPassword());
             otherCommands.setText(server.getOtherCommands());
             command.setText(createCommand(server));
@@ -286,7 +294,6 @@ public class ServerTabOverviewController {
                     command.append(installPackageCom).append(" ");
                     break;
                 }
-
                 break;
             }
             case CONTENT: {
@@ -340,7 +347,7 @@ public class ServerTabOverviewController {
         ServerData selectedItem = listServer.getSelectionModel().getSelectedItem();
         String commandCom = selectedItem.getCommand();
         String projectPath = selectedItem.getProjectPath();
-        if (projectPath.endsWith("\\") || projectPath.endsWith("/")){
+        if (projectPath.endsWith("\\") || projectPath.endsWith("/")) {
             projectPath = projectPath.substring(0, projectPath.length() - 1);
         }
         if (typeDeploy.getSelectedToggle().getUserData().toString().equals(TypeDeployRadioButton.BUNDLES.name())) {
@@ -350,6 +357,18 @@ public class ServerTabOverviewController {
             projectPath = projectPath + "\\content\\";
         }
         new ExecuteShellComand().executeCommand(commandCom, projectPath);
+    }
+
+    @FXML
+    private void handlePackageInstall() {
+        ServerData selectedItem = listServer.getSelectionModel().getSelectedItem();
+        int port;
+        if (selectedItem.getTypeEnvironment().equals(TypeEnvironment.AUTHOR)) {
+            port = selectedItem.getPortAuthor();
+        } else {
+            port = selectedItem.getPortPublish();
+        }
+        NetUtil.installPackage(port, selectedItem.getLogin(), selectedItem.getPassword(), selectedItem.getPackagePath());
     }
 
 }

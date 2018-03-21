@@ -1,14 +1,14 @@
 package ch.makery.address.model;
 
 public enum TypeEnvironment {
-    AUTHOR("author"),
-    PUBLISH("publish");
+    AUTHOR("4502"),
+    PUBLISH("4503");
 
-    private String type;
+    private String port;
 
-    TypeEnvironment(String type) {
-        this.type = type;
+    TypeEnvironment(String port) {
+        this.port = port;
     }
 
-    public String getType() {return type;}
+    public String getPort() {return port;}
 }

@@ -25,6 +25,8 @@ import java.io.IOException;
 
 public class NetUtil {
 
+    public static final String LOCALHOST = "localhost";
+
     public void get() throws IOException {
         CloseableHttpClient httpclient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet("https://helpx.adobe.com/experience-manager/using/first-arch10.html");
@@ -47,13 +49,13 @@ public class NetUtil {
         }
     }
 
-    public NetUtil() throws IOException {
+    public NetUtil() {
     }
 
-    public static void installPackage(String localhost, int port, String login, String password, String filePath) throws IOException, AuthenticationException {
+    public static void installPackage(int port, String login, String password, String filePath) {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         SystemDefaultCredentialsProvider systemDefaultCredentialsProvider = new SystemDefaultCredentialsProvider();
-        HttpHost targetHost = new HttpHost(localhost, port, "http");
+        HttpHost targetHost = new HttpHost(LOCALHOST, port, "http");
         systemDefaultCredentialsProvider.setCredentials(new AuthScope(targetHost.getHostName(), targetHost.getPort(), AuthScope.ANY_REALM),
                 new UsernamePasswordCredentials(login, password));
         httpClientBuilder.setDefaultCredentialsProvider(systemDefaultCredentialsProvider);
@@ -65,11 +67,20 @@ public class NetUtil {
         multipartEntityBuilder.addPart("file", new FileBody(new File(filePath)));
         httpPost.setEntity(multipartEntityBuilder.build());
         System.out.println("executing request " + httpPost.getRequestLine());
-        HttpResponse httpResponse = httpClientBuilder.build().execute(httpPost);
+        HttpResponse httpResponse = null;
+        try {
+            httpResponse = httpClientBuilder.build().execute(httpPost);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         HttpEntity entity = httpResponse.getEntity();
         System.out.println(httpResponse.getStatusLine());
         if (entity != null) {
-            System.out.println(EntityUtils.toString(entity));
+            try {
+                System.out.println(EntityUtils.toString(entity));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
